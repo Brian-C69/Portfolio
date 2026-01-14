@@ -10,6 +10,7 @@ Clean, Apple-style portfolio site built as a static Bootstrap website with a sha
 - Background music toggle (persists preference).
 - WhatsApp contact link + floating WhatsApp button.
 - Trust count-up animation.
+- PWA support (manifest + service worker).
 - Custom `404.html` + Apache `.htaccess` handler.
 
 ## Local development
@@ -27,5 +28,10 @@ Serve the folder as a static site root and open the served URL.
 - `shared/site-chrome.js` — shared UI injection + global behaviors (theme, music, carousel, WhatsApp, etc.)
 - `assets/` — images, audio, and media files
 - `404.html` — not found page
+- `manifest.webmanifest` — PWA manifest
+- `sw.js` — service worker (offline caching)
 - `.htaccess` — Apache 404 routing (adjust path if deployed at a different root)
 
+## PWA notes
+- Install prompt / “Add to Home Screen” works when served over HTTPS (or `http://localhost` during development).
+- If you update assets and want clients to refresh the offline cache, bump the `CACHE_VERSION` in `sw.js`.
