@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bernard Choong — Full Stack Developer & Systems Builder</title>
+  <meta name="description" content="Bernard Choong — Full Stack Developer and Systems Builder in Kuala Lumpur. Websites, platforms, integrations, and automation built to ship and last." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bernard Choong — Full Stack Developer & Systems Builder" />
+  <meta property="og:description" content="Websites, platforms, integrations, and automation built to ship and last — based in Kuala Lumpur." />
+  <meta property="og:type" content="website" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Fonts (optional, safe fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    /* Navbar */
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    #themeToggle.btn{
+      border-radius: 999px;
+      padding-inline: .75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    html[data-theme="dark"] #themeToggle{
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text-200);
+      background: rgba(15,23,42,0.4);
+    }
+    html[data-theme="light"] #themeToggle{
+      border-color: rgba(148,163,184,0.5);
+      color: #0f172a;
+      background: rgba(255,255,255,0.9);
+    }
+
+    /* Hero */
+    .hero{
+      position: relative;
+      padding-top: 7.5rem;
+      padding-bottom: 5rem;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-video{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.95) contrast(1.05);
+      transform: scale(1.02);
+    }
+    .hero-overlay{
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.70);
+    }
+    html[data-theme="light"] .hero-overlay{
+      background: rgba(248, 250, 252, 0.82);
+    }
+    .hero-inner{
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+    .hero-name{
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      font-size: clamp(3rem, 6vw, 4.75rem);
+    }
+    .hero-roles{
+      font-size: 1.25rem;
+      color: var(--text-200);
+      min-height: 1.6em;
+    }
+    html[data-theme="light"] .hero-roles{
+      color: var(--text-300);
+    }
+    .typewriter-cursor{
+      display: inline-block;
+      margin-left: .15rem;
+      opacity: .9;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink{
+      50%{ opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .typewriter-cursor{ display: none; }
+    }
+    .hero-location{
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .avatar{
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      object-fit: cover;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+    }
+    html[data-theme="light"] .avatar{
+      box-shadow: 0 14px 30px rgba(15,23,42,0.14);
+    }
+    .about-photo{
+      width: 144px;
+      height: 144px;
+      border-radius: 28px;
+      object-fit: cover;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.30);
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .about-photo{
+      box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+    }
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    .about-strip{
+      padding-top: 2.25rem;
+      padding-bottom: 2.75rem;
+    }
+    .about-card{
+      padding: 1.5rem;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      box-shadow: var(--shadow-soft);
+    }
+    .about-portrait{
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-soft);
+      object-fit: cover;
+      transform: scale(1);
+      transition: transform .22s ease;
+    }
+    @media (hover: hover) and (pointer: fine){
+      .about-portrait:hover{
+        transform: scale(1.03);
+      }
+    }
+    .hero-panel{
+      background:
+        linear-gradient(135deg, rgba(13,110,253,0.08), rgba(34,211,238,0.06)),
+        rgba(255,255,255,0.02);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Cards */
+    .card-soft{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+    .card-soft .card-title{
+      font-weight: 700;
+    }
+    .card-soft .card-text{
+      color: var(--muted);
+    }
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(var(--bs-primary-rgb), 0.35);
+    }
+
+    /* Section headings */
+    .section{
+      padding: 4.5rem 0;
+    }
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{
+      color: var(--muted);
+    }
+
+    /* Badges */
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+      transition: border-color .18s ease, background .18s ease;
+    }
+    @media (hover: hover) and (pointer: fine){
+      .pill:hover{
+        border-color: rgba(var(--bs-primary-rgb), 0.28);
+        background: rgba(255,255,255,0.05);
+      }
+    }
+
+    /* Service icon bubble */
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    /* Stats */
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* FAQ */
+    .faq-accordion .accordion-item{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .faq-accordion .accordion-item + .accordion-item{
+      margin-top: .75rem;
+    }
+    .faq-accordion .accordion-button{
+      background: transparent;
+      color: var(--text-100);
+      font-weight: 700;
+      padding: 1.1rem 1.1rem;
+      box-shadow: none !important;
+    }
+    .faq-accordion .accordion-button:not(.collapsed){
+      background: rgba(13,110,253,0.08);
+      color: var(--text-100);
+    }
+    .faq-accordion .accordion-button:focus{
+      border-color: transparent;
+      box-shadow: 0 0 0 .2rem rgba(13,110,253,0.18);
+    }
+    .faq-accordion .accordion-body{
+      padding: .6rem 1.1rem 1.1rem;
+    }
+    html[data-theme="light"] .faq-accordion .accordion-item{
+      background: rgba(255,255,255,0.65);
+    }
+    html[data-theme="light"] .faq-accordion .accordion-button{
+      color: #0b1120;
+    }
+    html[data-theme="light"] .faq-accordion .accordion-button:not(.collapsed){
+      background: rgba(13,110,253,0.10);
+      color: #0b1120;
+    }
+    @media (hover: hover) and (pointer: fine){
+      .faq-accordion .accordion-item:hover{
+        transform: translateY(-3px);
+        border-color: rgba(var(--bs-primary-rgb), 0.22);
+        background: rgba(255,255,255,0.03);
+      }
+    }
+
+    /* Contact quick links hover */
+    #contact .list-group-item{
+      transition: transform .16s ease, color .16s ease;
+    }
+    @media (hover: hover) and (pointer: fine){
+      #contact .list-group-item:hover{
+        transform: translateX(4px);
+        color: var(--text-100) !important;
+      }
+    }
+
+    /* Divider */
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    /* Footer */
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    /* Buttons */
+    .btn-primary{
+      box-shadow: 0 8px 20px rgba(13,110,253,0.25);
+    }
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+    @media (max-width: 575.98px){
+      .mobile-action-buttons .btn{
+        width: 100%;
+        min-height: 54px;
+        padding: .85rem 1.1rem;
+        font-size: 1.05rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    #contact .btn i{
+      margin-right: .55rem;
+    }
+
+    /* Small polish */
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, .stat, .faq-accordion .accordion-item, #contact .list-group-item, html{
+        transition: none !important;
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div id="siteHeader"></div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      webkit-playsinline
+      preload="metadata"
+      poster="assets/img/placeholder.webp"
+      aria-hidden="true"
+    >
+      <source src="assets/video/tech-background-720p.mp4" type="video/mp4" media="(max-width: 767px)" />
+      <source src="assets/video/tech-background-1080p.mp4" type="video/mp4" media="(min-width: 768px) and (max-width: 991px)" />
+      <source src="assets/video/tech-background-2k.mp4" type="video/mp4" media="(min-width: 992px) and (max-width: 2399px)" />
+      <source src="assets/video/tech-background-4k.mp4" type="video/mp4" media="(min-width: 2400px)" />
+    </video>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="container">
+      <div class="row align-items-center justify-content-center g-4">
+
+        <div class="col-lg-10 col-xl-9">
+          <div class="hero-inner">
+            <h1 class="display-4 hero-name mb-3">Bernard Choong</h1>
+            <div class="hero-roles mb-3" aria-label="Role titles cycling">
+              <span
+                class="typewriter"
+                data-typewriter='["Full-Stack Developer","System Builder","Back-End Developer","Head of IT Department","Technical Lead","Solutions Architect","Platform Engineer","PHP Developer","WordPress Developer","Flutter Developer","API Integration Specialist","Automation Engineer","Systems Analyst","Database Developer","DevOps Engineer","Web Application Developer","Software Engineer","Product Engineer","IT Consultant","MQL4 Developer"]'
+                data-typewriter-type="70"
+                data-typewriter-erase="40"
+                data-typewriter-hold="1100"
+              >Full-Stack Developer</span><span class="typewriter-cursor" aria-hidden="true">|</span>
+            </div>
+            <p class="hero-location mb-4">Based in Kuala Lumpur, Malaysia.</p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+              <a class="btn btn-primary btn-lg" href="#featured">My Projects</a>
+              <a class="btn btn-outline-light btn-lg" href="#contact">Get in Touch</a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+
+
+  <!-- ABOUT -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-4">
+          <div class="d-flex justify-content-center justify-content-lg-start">
+            <picture>
+              <source media="(min-width: 992px)" srcset="assets/img/bernard-tech-full.webp" type="image/webp" />
+              <source media="(min-width: 768px)" srcset="assets/img/bernard-tech-quarter.webp" type="image/webp" />
+              <img
+                src="assets/img/bernard-tech-square-sm.webp"
+                class="about-portrait"
+                alt="Bernard Choong"
+                loading="eager"
+              />
+            </picture>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-3">About me</h2>
+          <p class="section-lead mb-3">
+            Most projects don’t struggle because the team can’t build — they struggle in the gaps: integration,
+            deployment, handover, and stability.
+          </p>
+          <p class="text-muted-custom mb-3">That’s where I work best.</p>
+          <p class="text-muted-custom mb-3">
+            Over the years, I’ve shipped across websites, backend modules, integrations, and the decisions that keep
+            systems reliable after launch. The range isn’t random — it’s one connected workflow.
+          </p>
+          <p class="text-muted-custom mb-4">
+            If you need one owner who can understand the workflow, build what matters, and ship with a clean handover,
+            I can help.
+          </p>
+
+          <div class="row g-2 mt-4 mobile-action-buttons">
+            <div class="col-12 col-sm-auto">
+              <a class="btn btn-primary w-100" href="#featured">My Projects</a>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <a class="btn btn-outline-light w-100" href="#contact">Get in Touch</a>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <a class="btn btn-outline-light w-100" href="/services">Service menu</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- FEATURED WORK -->
+  <section id="featured" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Projects</h2>
+          <p class="section-lead mb-0">Selected builds and systems across software, infrastructure, and web.</p>
+        </div>
+      </div>
+
+      <div class="carousel-wrap" data-carousel-wrap data-carousel-autoplay="true" data-carousel-interval="3500">
+        <button class="carousel-btn" type="button" data-carousel-prev aria-label="Previous project">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <div class="carousel-viewport" data-carousel-viewport aria-label="Projects carousel">
+          <div class="carousel-track" data-carousel="projects">
+          <!-- GA2 Medical -->
+          <div class="carousel-slide">
+            <div class="card card-soft hover-lift h-100">
+              <div class="ratio ratio-16x9 media-frame media-top">
+                <img src="assets/img/GA2_Medical_Website.webp" alt="GA2 Medical website preview" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="pill mb-3"><i class="bi bi-bag-check"></i> eCommerce</span>
+                <h3 class="h5 fw-bold">GA2 Medical Sdn Bhd</h3>
+                <p class="text-muted-custom">
+                  A product-first eCommerce setup designed for trust, catalog clarity, and purchase flow.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <span class="meta-btn"><i class="bi bi-shop"></i> Shopify</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <a class="link-soft small" href="https://ga2medical.com/" target="_blank" rel="noopener">Visit site →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cheematrade Company Website -->
+          <div class="carousel-slide">
+            <div class="card card-soft hover-lift h-100">
+              <div class="ratio ratio-16x9 media-frame media-top">
+                <img src="assets/img/Cheematrade_company_website.webp" alt="Cheematrade company website preview" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="pill mb-3"><i class="bi bi-globe2"></i> Company Website</span>
+                <h3 class="h5 fw-bold">Cheematrade Sdn Bhd</h3>
+                <p class="text-muted-custom">
+                  A clean corporate website built to improve trust, navigation, and enquiry conversion.
+                </p>
+                <p class="text-muted-custom small mb-0">&nbsp;</p>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <a class="link-soft small" href="https://cheematradesb.com/" target="_blank" rel="noopener">Visit site →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 9retreat Spa Website -->
+          <div class="carousel-slide">
+            <div class="card card-soft hover-lift h-100">
+              <div class="ratio ratio-16x9 media-frame media-top">
+                <img src="assets/img/9retreat_website.webp" alt="9retreat spa website preview" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="pill mb-3"><i class="bi bi-globe2"></i> Company Website</span>
+                <h3 class="h5 fw-bold">9retreat Sdn Bhd</h3>
+                <p class="text-muted-custom">
+                  A spa website designed to present services and prices clearly, with booking-ready flow.
+                </p>
+                <p class="text-muted-custom small mb-0">&nbsp;</p>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <a class="link-soft small" href="https://9retreatspa.com/" target="_blank" rel="noopener">Visit site →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- HQ Healing -->
+          <div class="carousel-slide">
+            <div class="card card-soft hover-lift h-100">
+              <div class="ratio ratio-16x9 media-frame media-top">
+                <img src="assets/img/HQ_Healing_Website.webp" alt="HQ Healing website preview" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="pill mb-3"><i class="bi bi-heart-pulse"></i> Wellness</span>
+                <h3 class="h5 fw-bold">HQ Healing</h3>
+                <p class="text-muted-custom">
+                  Personal website focused on holistic healing, wellness, and cancer care.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <span class="meta-btn"><i class="bi bi-wordpress"></i> WordPress</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <a class="link-soft small" href="https://hqhealing.com/" target="_blank" rel="noopener">Visit site →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- PetroShell -->
+          <div class="carousel-slide">
+            <div class="card card-soft hover-lift h-100">
+              <div class="ratio ratio-16x9 media-frame media-top">
+                <img src="assets/img/PetroShell_website.webp" alt="PetroShell website preview" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="pill mb-3"><i class="bi bi-building"></i> Company Website</span>
+                <h3 class="h5 fw-bold">PetroShell</h3>
+                <p class="text-muted-custom">
+                  Petroleum & petrochemical refining — high quality products, innovation, and continuous process improvement.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <span class="meta-btn"><i class="bi bi-box"></i> Wix</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <a class="link-soft small" href="https://www.petroshell.com/" target="_blank" rel="noopener">Visit site →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kaistar Energy -->
+          <div class="carousel-slide">
+            <div class="card card-soft hover-lift h-100">
+              <div class="ratio ratio-16x9 media-frame media-top">
+                <img src="assets/img/Kaistar_Energy_website.webp" alt="Kaistar Energy website preview" loading="lazy" />
+              </div>
+              <div class="card-body">
+                <span class="pill mb-3"><i class="bi bi-globe2"></i> Company Website</span>
+                <h3 class="h5 fw-bold">Kaistar Energy</h3>
+                <p class="text-muted-custom">
+                  End-to-end oil-contaminated sludge & oilfield waste handling with refinery-grade QA/QC and licensed disposal across SG, MENA, and APAC.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                  <span class="meta-btn"><i class="bi bi-bootstrap"></i> Bootstrap</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <a class="link-soft small" href="https://kaistarenergy.com/" target="_blank" rel="noopener">Visit site →</a>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <button class="carousel-btn" type="button" data-carousel-next aria-label="Next project">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+
+        <div class="carousel-dots" data-carousel-dots aria-label="Projects navigation"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- APPROACH -->
+  <section id="approach" class="section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-12 text-center">
+          <h2 class="section-title h1 mb-3">
+            <span class="d-block">My Approach</span>
+            <span class="d-block fw-normal text-muted-custom">integration over hype</span>
+          </h2>
+          <p class="section-lead mb-3">
+            I’m not a “list-of-skills” freelancer.
+            I’m a systems operator who builds solutions that survive real-world constraints:
+            budget, people, maintenance, and business growth.
+          </p>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <span class="pill"><i class="bi bi-briefcase"></i> Business-first design</span>
+            <span class="pill"><i class="bi bi-journal-check"></i> Documented delivery</span>
+            <span class="pill"><i class="bi bi-diagram-3"></i> Maintainable structure</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-3">
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat h-100 approach-step text-center hover-lift">
+            <div class="icon-bubble mb-3 mx-auto"><i class="bi bi-search"></i></div>
+            <h3 class="h5 fw-bold mb-2">Assess</h3>
+            <div class="label">Understand workflow, risks, and real constraints.</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat h-100 approach-step text-center hover-lift">
+            <div class="icon-bubble mb-3 mx-auto"><i class="bi bi-hammer"></i></div>
+            <h3 class="h5 fw-bold mb-2">Build</h3>
+            <div class="label">Ship clean modules with clear roles and boundaries.</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat h-100 approach-step text-center hover-lift">
+            <div class="icon-bubble mb-3 mx-auto"><i class="bi bi-diagram-3"></i></div>
+            <h3 class="h5 fw-bold mb-2">Integrate</h3>
+            <div class="label">Connect software + infra + digital execution logically.</div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="stat h-100 approach-step text-center hover-lift">
+            <div class="icon-bubble mb-3 mx-auto"><i class="bi bi-speedometer2"></i></div>
+            <h3 class="h5 fw-bold mb-2">Optimize</h3>
+            <div class="label">Performance, stability, and long-term sustainability.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- PROOF / TRUST -->
+  <section id="proof" class="section">
+    <div class="container">
+      <div class="row justify-content-center mb-4 text-center">
+        <div class="col-lg-10">
+          <h2 class="section-title h1 mb-2">Trust</h2>
+          <p class="section-lead mb-0">Trust signals that reduce doubt fast.</p>
+        </div>
+      </div>
+
+      <div class="row g-3 justify-content-center text-center">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100 hover-lift">
+            <div class="number count-up" data-count="10" data-suffix="+" data-duration="1600">0+</div>
+            <div class="label">Years building & shipping</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100 hover-lift">
+            <div class="number count-up" data-count="6" data-suffix="+" data-duration="1600">0+</div>
+            <div class="label">Industries served</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100 hover-lift">
+            <div class="number count-up" data-count="30" data-suffix="+" data-duration="1600">0+</div>
+            <div class="label">Projects shipped</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100 hover-lift">
+            <div class="number count-up" data-count="20" data-suffix="+" data-duration="1600">0+</div>
+            <div class="label">Websites & landing pages</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="row justify-content-center mb-4 text-center">
+        <div class="col-lg-10 col-xl-9">
+          <h2 class="section-title h1 mb-2">FAQ</h2>
+          <p class="section-lead mb-0">Quick answers about how I work and what I deliver.</p>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+          <div class="accordion faq-accordion" id="faqAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqOneHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne" aria-expanded="false" aria-controls="faqOne">
+                  What do you actually build?
+                </button>
+              </h2>
+              <div id="faqOne" class="accordion-collapse collapse" aria-labelledby="faqOneHeading" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted-custom">
+                  Websites and platforms, backend modules, integrations, and automation—work that connects the pieces so the whole system runs reliably after launch.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqTwoHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqTwo" aria-expanded="false" aria-controls="faqTwo">
+                  Do you handle deployment and handover?
+                </button>
+              </h2>
+              <div id="faqTwo" class="accordion-collapse collapse" aria-labelledby="faqTwoHeading" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted-custom">
+                  Yes—deployment, DNS/SSL, environments, and a clean handover with notes or documentation so your team isn’t stuck later.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqThreeHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqThree" aria-expanded="false" aria-controls="faqThree">
+                  Can you work with my current site/platform?
+                </button>
+              </h2>
+              <div id="faqThree" class="accordion-collapse collapse" aria-labelledby="faqThreeHeading" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted-custom">
+                  Yes. I can improve what you already have, integrate new tools, or rebuild only what’s necessary—based on the constraints and the fastest path to stable results.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqFourHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFour" aria-expanded="false" aria-controls="faqFour">
+                  What’s your process like?
+                </button>
+              </h2>
+              <div id="faqFour" class="accordion-collapse collapse" aria-labelledby="faqFourHeading" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted-custom">
+                  Align on the workflow → define scope and deliverables → ship in clear milestones → integrate and stabilize → handover and optional maintenance.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqFiveHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqFive" aria-expanded="false" aria-controls="faqFive">
+                  Do you offer ongoing support?
+                </button>
+              </h2>
+              <div id="faqFive" class="accordion-collapse collapse" aria-labelledby="faqFiveHeading" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted-custom">
+                  Yes—small retainers for updates, fixes, and improvements. If you prefer, I can also do “on-demand” support for specific tasks.
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqSixHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqSix" aria-expanded="false" aria-controls="faqSix">
+                  How do we start?
+                </button>
+              </h2>
+              <div id="faqSix" class="accordion-collapse collapse" aria-labelledby="faqSixHeading" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-muted-custom">
+                  Message me on WhatsApp with your goal, timeline, and any links. I’ll ask a few questions, then propose the fastest clean path forward.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+          <h2 class="section-title h1 mb-2">Let’s build something that actually lasts.</h2>
+          <p class="section-lead">
+            If you’re unsure which specialty fits your needs,
+            start here — I’ll route you to the right solution lane.
+          </p>
+
+          <div class="row g-2 mt-3 mobile-action-buttons">
+            <div class="col-12 col-sm-auto">
+              <a class="btn btn-primary btn-lg w-100" href="https://wa.me/60123095550" target="_blank" rel="noopener">
+                <i class="bi bi-whatsapp"></i> WhatsApp Me
+              </a>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <a class="btn btn-outline-light btn-lg w-100" href="mailto:hello@bernardchoong.com">
+                <i class="bi bi-envelope"></i> Email
+              </a>
+            </div>
+            <div class="col-12 col-sm-auto">
+              <a class="btn btn-outline-light btn-lg w-100" href="/services">View Service Menu</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card card-soft hover-lift">
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="pill"><i class="bi bi-person-badge"></i> Quick Links</span>
+              </div>
+              <div class="list-group list-group-flush">
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="software/">
+                    <i class="bi bi-code-slash me-2"></i> Software Development Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="networking/">
+                    <i class="bi bi-router me-2"></i> Networking Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="cctv/">
+                    <i class="bi bi-camera-video me-2"></i> CCTV Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="algo-trading/">
+                    <i class="bi bi-graph-up-arrow me-2"></i> Algorithmic Trading Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="/hardware">
+                    <i class="bi bi-hdd-network me-2"></i> Hardware/Servers Profile
+                  </a>
+                <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="/marketing">
+                  <i class="bi bi-graph-up-arrow me-2"></i> Digital Growth Profile
+                </a>
+                <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="/copywriting">
+                  <i class="bi bi-journal-text me-2"></i> Company Profiles & Copywriting
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="siteFooter"></div>
+
+  <script src="shared/site-chrome.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

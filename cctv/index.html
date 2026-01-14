@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CCTV & Security Infrastructure — Bernard Choong</title>
+  <meta name="description" content="Bernard Choong — CCTV & Security Infrastructure. End-to-end planning, installation guidance, retention-aware storage, and network-friendly security design for offices and SMEs." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    #themeToggle.btn{
+      border-radius: 999px;
+      padding-inline: .75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    html[data-theme="dark"] #themeToggle{
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text-200);
+      background: rgba(15,23,42,0.4);
+    }
+    html[data-theme="light"] #themeToggle{
+      border-color: rgba(148,163,184,0.5);
+      color: #0f172a;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .section{ padding: 4.5rem 0; }
+
+    .page-hero{
+      padding-top: 7rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .card-soft{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(13,110,253,0.35);
+    }
+
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{ color: var(--muted); }
+
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+    }
+
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    .accordion-button{ font-weight: 600; }
+    .accordion-button:not(.collapsed){
+      background: rgba(255,255,255,0.04);
+      color: white;
+      box-shadow: none;
+    }
+    .accordion-button:focus{
+      border-color: rgba(13,110,253,0.4);
+      box-shadow: none;
+    }
+
+    .risk-note{
+      border: 1px dashed rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, html{ transition: none !important; scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div id="siteHeader"></div>
+
+  <!-- HERO -->
+  <header class="page-hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+          <span class="hero-badge mb-3">
+            <i class="bi bi-camera-video"></i>
+            CCTV • Storage • Network-Safe Security
+          </span>
+
+          <h1 class="display-4 hero-title mb-3">
+            CCTV that works reliably<br class="d-none d-md-block">
+            beyond the first week.
+          </h1>
+
+          <p class="hero-sub mb-4">
+            I plan and support CCTV deployments with an infrastructure mindset:
+            stable recording, clean network integration, and retention-aware storage.
+            My goal is simple — a security system that remains dependable, easy to maintain,
+            and aligned with real business operations.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="#what">Capabilities</a>
+            <a class="btn btn-outline-light btn-lg" href="#design">Design Principles</a>
+            <a class="btn btn-outline-light btn-lg" href="/hardware">Hardware Profile</a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Retention-aware planning</span>
+            <span class="pill"><i class="bi bi-shield-check"></i> Reliability-first setup</span>
+            <span class="pill"><i class="bi bi-wifi"></i> Network-friendly design</span>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="text-uppercase text-muted-custom small fw-semibold">Security Snapshot</span>
+                <span class="pill"><i class="bi bi-building-check"></i> Business-ready</span>
+              </div>
+
+              <div class="soft-divider my-3"></div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-diagram-3"></i></span>
+                <div>
+                  <div class="fw-semibold">Site-Aware Planning</div>
+                  <div class="text-muted-custom small">
+                    Camera placement based on real blind spots and traffic flow.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-hdd"></i></span>
+                <div>
+                  <div class="fw-semibold">Retention & Storage</div>
+                  <div class="text-muted-custom small">
+                    Storage sizing suited for uptime and recording cycles.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3">
+                <span class="icon-bubble"><i class="bi bi-router"></i></span>
+                <div>
+                  <div class="fw-semibold">Network Harmony</div>
+                  <div class="text-muted-custom small">
+                    Designed so cameras don’t crush office productivity.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Safety / expectations note -->
+      <div class="row mt-4">
+        <div class="col-lg-10">
+          <div class="risk-note p-3 p-md-4">
+            <div class="d-flex gap-2 align-items-start">
+              <i class="bi bi-info-circle text-info mt-1"></i>
+              <div class="text-muted-custom small">
+                CCTV is part of a broader security strategy. I focus on stable infrastructure,
+                clear design, and operational reliability — not “magic prevention.”
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- WHAT I HANDLE -->
+  <section id="what" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">What I handle</h2>
+          <p class="section-lead mb-0">
+            End-to-end support focused on reliability, retention, and business-ready integration.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-camera"></i></div>
+              <h3 class="h5 fw-bold">Camera Planning & Placement</h3>
+              <p class="text-muted-custom">
+                Coverage strategy mapped to entrances, cashpoints,
+                high-traffic zones, and operational risk points.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Blind spot reduction</span>
+                <span class="pill">Site-aware logic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-hdd-stack"></i></div>
+              <h3 class="h5 fw-bold">Retention & Storage Sizing</h3>
+              <p class="text-muted-custom">
+                Storage planned around recording duration needs,
+                uptime, and realistic maintenance cycles.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Retention-aware</span>
+                <span class="pill">Stability-first</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-router"></i></div>
+              <h3 class="h5 fw-bold">Network-Friendly CCTV</h3>
+              <p class="text-muted-custom">
+                Design that ensures camera traffic doesn’t disrupt
+                staff connectivity or business-critical systems.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Load-aware design</span>
+                <span class="pill">Cleaner troubleshooting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-cloud-check"></i></div>
+              <h3 class="h5 fw-bold">Remote Access Readiness</h3>
+              <p class="text-muted-custom">
+                Prepare clean, secure, and stable viewing access
+                for authorized users across devices.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Practical setup</span>
+                <span class="pill">User-friendly handover</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-tools"></i></div>
+              <h3 class="h5 fw-bold">Fix & Optimization</h3>
+              <p class="text-muted-custom">
+                Improve unstable or outdated CCTV environments
+                with structured improvements and clearer monitoring practices.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Stability recovery</span>
+                <span class="pill">Documentation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-file-earmark-text"></i></div>
+              <h3 class="h5 fw-bold">Simple Handover Docs</h3>
+              <p class="text-muted-custom">
+                Basic diagrams, camera lists, and maintenance notes
+                so clients aren’t dependent on a single technician.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Device inventory</span>
+                <span class="pill">Clear access notes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- DESIGN PRINCIPLES -->
+  <section id="design" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">Design principles I follow</h2>
+          <p class="section-lead">
+            This is where your “not a scammer” aura becomes undeniable.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Reliability over hype</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Retention clarity</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Network harmony</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Coverage logic</div>
+                <div class="label">Plan cameras based on real risk zones, not random angles.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Retention-first</div>
+                <div class="label">Storage sized for usage goals and realistic maintenance.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Failure awareness</div>
+                <div class="label">Reduce hidden single points of failure where possible.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Business-friendly</div>
+                <div class="label">CCTV shouldn’t degrade daily office operations.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-soft mt-3">
+            <div class="card-body">
+              <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-link-45deg text-info"></i>
+                <div class="text-muted-custom small">
+                  This CCTV approach is supported by my networking and hardware planning.
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <a class="btn btn-outline-light btn-sm" href="/networking">/networking →</a>
+                <a class="btn btn-outline-light btn-sm" href="/hardware">/hardware →</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- SELECTED WORK -->
+  <section id="work" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Selected CCTV work</h2>
+          <p class="section-lead mb-0">
+            Swap in real examples later — keep them short, structured, and outcome-based.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-building"></i> Office Security</span>
+              <h3 class="h5 fw-bold">CCTV Layout Upgrade</h3>
+              <p class="text-muted-custom">
+                Improved coverage with clearer camera placement logic,
+                reduced blind spots, and cleaner maintenance setup.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Placement strategy</span>
+                <span class="pill">Operational clarity</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Add anonymized location type</li>
+                <li>Show simple coverage map</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-hdd-stack"></i> Retention Setup</span>
+              <h3 class="h5 fw-bold">Storage Discipline Build</h3>
+              <p class="text-muted-custom">
+                Planned hardware and retention targets so recording
+                remains stable under long daily cycles.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Durability-first</span>
+                <span class="pill">Retention-aware</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Include high-level retention goal</li>
+                <li>Note stability improvements</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-router"></i> Network Harmony</span>
+              <h3 class="h5 fw-bold">CCTV + Office Coexistence</h3>
+              <p class="text-muted-custom">
+                Implemented a load-aware layout so security traffic
+                doesn’t disrupt staff internet and internal systems.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Load-aware design</span>
+                <span class="pill">Cleaner troubleshooting</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Add simple topology diagram</li>
+                <li>Include device count if safe</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">CCTV deployments supported</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Office/warehouse layouts</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Retention plans designed</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">Ops-first</div>
+            <div class="label">Security that stays maintainable</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- PROCESS -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">How I approach CCTV</h2>
+          <p class="section-lead">
+            This makes you look like a security-infrastructure consultant.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Site-aware planning</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Retention clarity</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Clean handover</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">1) Assess Risk Zones</div>
+                <div class="label">Entrances, cashpoints, aisles, blind spots.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">2) Plan Coverage</div>
+                <div class="label">Camera types + angles aligned to site usage.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">3) Size Storage</div>
+                <div class="label">Retention targets with practical maintenance reality.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">4) Integrate Network</div>
+                <div class="label">Load-aware layout and cleaner future support.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">FAQ</h2>
+          <p class="section-lead mb-0">
+            This eliminates the “too many skills” suspicion.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion" id="faqAcc">
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f1">
+              Do you only install, or also plan the whole system?
+            </button>
+          </h2>
+          <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              I can support both. My strength is planning CCTV as part of the wider ecosystem —
+              network stability, storage retention, and real operational usage.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f2">
+              Can you help if I’m unsure what setup I need?
+            </button>
+          </h2>
+          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Yes. I can propose a structured CCTV plan with coverage logic,
+              retention targets, and network-aware design.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f3">
+              Why is your CCTV approach linked to networking and hardware?
+            </button>
+          </h2>
+          <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Because reliable CCTV is an infrastructure problem.
+              Cameras are only one part — network load, storage durability,
+              and clean system design determine long-term success.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card card-soft">
+        <div class="card-body p-4 p-lg-5">
+          <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+              <h3 class="h2 fw-bold mb-2">Want a CCTV setup that stays reliable long-term?</h3>
+              <p class="text-muted-custom mb-0">
+                I can help plan or improve your security infrastructure with
+                retention-aware storage, network-safe integration, and clean documentation.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <a class="btn btn-primary btn-lg" href="https://wa.me/60123095550" target="_blank" rel="noopener">
+                  <i class="bi bi-whatsapp"></i> WhatsApp me
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="mailto:hello@bernardchoong.com">
+                  <i class="bi bi-envelope"></i> Email
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="/networking">
+                  Networking Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="siteFooter"></div>
+
+  <script src="../shared/site-chrome.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

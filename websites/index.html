@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website & Platform Builder — Bernard Choong</title>
+  <meta name="description" content="Bernard Choong — Website & Platform Builder. Corporate websites, eCommerce, landing pages, and system-backed digital presence." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    #themeToggle.btn{
+      border-radius: 999px;
+      padding-inline: .75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    html[data-theme="dark"] #themeToggle{
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text-200);
+      background: rgba(15,23,42,0.4);
+    }
+    html[data-theme="light"] #themeToggle{
+      border-color: rgba(148,163,184,0.5);
+      color: #0f172a;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .section{ padding: 4.5rem 0; }
+
+    .page-hero{
+      padding-top: 7rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .card-soft{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(13,110,253,0.35);
+    }
+
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{ color: var(--muted); }
+
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+    }
+
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    /* Accordion dark polish */
+    .accordion-button{ font-weight: 600; }
+    .accordion-button:not(.collapsed){
+      background: rgba(255,255,255,0.04);
+      color: white;
+      box-shadow: none;
+    }
+    .accordion-button:focus{
+      border-color: rgba(13,110,253,0.4);
+      box-shadow: none;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, html{ transition: none !important; scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div id="siteHeader"></div>
+
+  <!-- HERO -->
+  <header class="page-hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+          <span class="hero-badge mb-3">
+            <i class="bi bi-globe2"></i>
+            Corporate • eCommerce • Conversion-ready
+          </span>
+
+          <h1 class="display-4 hero-title mb-3">
+            Websites that don’t just look good —<br class="d-none d-md-block">
+            they support real operations.
+          </h1>
+
+          <p class="hero-sub mb-4">
+            I’m Bernard Choong. I build corporate websites, eCommerce platforms,
+            and landing pages that are structured for trust, performance, and
+            long-term maintainability. My edge is that I’m not only a designer —
+            I’m a systems builder who understands how websites connect to
+            inventory, admin workflows, and business growth.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="#work">See Selected Work</a>
+            <a class="btn btn-outline-light btn-lg" href="/software">Software Profile</a>
+            <a class="btn btn-outline-light btn-lg" href="/marketing">Digital Growth</a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-lightning-charge"></i> Performance-first</span>
+            <span class="pill"><i class="bi bi-shield-check"></i> Trust + clarity design</span>
+            <span class="pill"><i class="bi bi-gear-wide-connected"></i> Ops-aware builds</span>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="text-uppercase text-muted-custom small fw-semibold">Website Snapshot</span>
+                <span class="pill"><i class="bi bi-stars"></i> High-trust lane</span>
+              </div>
+
+              <div class="soft-divider my-3"></div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-building"></i></span>
+                <div>
+                  <div class="fw-semibold">Corporate Presence</div>
+                  <div class="text-muted-custom small">
+                    Modern company sites built for credibility and clean storytelling.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-bag-check"></i></span>
+                <div>
+                  <div class="fw-semibold">eCommerce & Catalogs</div>
+                  <div class="text-muted-custom small">
+                    Inventory-aware flows, admin-friendly structure, scalable content.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3">
+                <span class="icon-bubble"><i class="bi bi-bullseye"></i></span>
+                <div>
+                  <div class="fw-semibold">Landing Pages</div>
+                  <div class="text-muted-custom small">
+                    Conversion-focused design with clear CTA psychology.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- WHAT I BUILD -->
+  <section id="what" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">What I build</h2>
+          <p class="section-lead mb-0">
+            This page focuses on website and platform outcomes — not a random list of tools.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-building-check"></i></div>
+              <h3 class="h5 fw-bold">Corporate Websites</h3>
+              <p class="text-muted-custom">
+                Clean and credible company presence that communicates
+                capability, trust, and operational legitimacy.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">High-trust layout</span>
+                <span class="pill">Brand consistency</span>
+                <span class="pill">Story clarity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-cart-check"></i></div>
+              <h3 class="h5 fw-bold">eCommerce Platforms</h3>
+              <p class="text-muted-custom">
+                Inventory-aware builds with admin flows that don’t break
+                under real business handling.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Ops-ready</span>
+                <span class="pill">Admin-first UX</span>
+                <span class="pill">Scalable catalog</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-bullseye"></i></div>
+              <h3 class="h5 fw-bold">Landing Pages</h3>
+              <p class="text-muted-custom">
+                High-conversion layouts built from real buyer psychology —
+                clarity, authority, and strong CTA placement.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">HPDAC-ready</span>
+                <span class="pill">Campaign aligned</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-journal-text"></i></div>
+              <h3 class="h5 fw-bold">Company Profile Pages</h3>
+              <p class="text-muted-custom">
+                Structured service sections that look premium, read clean,
+                and reduce sales friction.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">B2B clarity</span>
+                <span class="pill">Authority framing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-graph-up-arrow"></i></div>
+              <h3 class="h5 fw-bold">SEO-Ready Structure</h3>
+              <p class="text-muted-custom">
+                Clean semantic pages, category logic, and content frameworks
+                that support long-term growth.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Content engine</span>
+                <span class="pill">Scalable pages</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-speedometer2"></i></div>
+              <h3 class="h5 fw-bold">Performance Cleanup</h3>
+              <p class="text-muted-custom">
+                Speed, mobile UX, and layout improvements on existing sites —
+                without breaking brand continuity.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Mobile-first</span>
+                <span class="pill">Low bloat</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- SELECTED WORK -->
+  <section id="work" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Selected website & platform work</h2>
+          <p class="section-lead mb-0">
+            Keep 3–4 anchor proofs here. Replace placeholders with your real brand screenshots.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <a class="btn btn-outline-light" href="/#featured">View projects</a>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <!-- GA2 Medical -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-bag-check"></i> eCommerce + Ops</span>
+              <h3 class="h5 fw-bold">GA2 Medical Website Ecosystem</h3>
+              <p class="text-muted-custom">
+                A business-ready site with operational thinking — structured products,
+                clean brand authority, and admin-friendly flows.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Product structure</span>
+                <span class="pill">Brand authority</span>
+                <span class="pill">Ops alignment</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Add homepage + product page screenshots</li>
+                <li>Show your admin/flow logic overview</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cheematrade -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-building"></i> Corporate B2B</span>
+              <h3 class="h5 fw-bold">Cheematrade Digital Presence</h3>
+              <p class="text-muted-custom">
+                A structured corporate presence built for trust —
+                clear service mapping, strong authority tone, and modern UI.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Service architecture</span>
+                <span class="pill">B2B credibility</span>
+                <span class="pill">Clean sections</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Use your company profile format here</li>
+                <li>Show service section design pattern</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GA2 Wellness -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-bullseye"></i> Brand + Conversion</span>
+              <h3 class="h5 fw-bold">GA2 Wellness Brand Pages</h3>
+              <p class="text-muted-custom">
+                Landing pages and product storytelling designed to reduce doubt
+                and increase trust with clean copy + visual consistency.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">HPDAC structure</span>
+                <span class="pill">Visual authority</span>
+                <span class="pill">CTA clarity</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Add product page + ad asset preview</li>
+                <li>Short “Problem → Desire → Authority” framing</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini proof -->
+      <div class="row g-3 mt-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Corporate pages built</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Landing pages shipped</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Brands supported</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X%</div>
+            <div class="label">Speed/UX improvements (if you have)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- QUALITY STANDARDS -->
+  <section id="quality" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">Quality standards I don’t compromise on</h2>
+          <p class="section-lead">
+            This is the section that silently screams: “not a template merchant.”
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Mobile-first layout</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Fast load strategy</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Clear trust hierarchy</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Maintainable structure</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Clarity</div>
+                <div class="label">Service structure that reduces sales friction.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Speed</div>
+                <div class="label">Lean assets, clean layout, minimal bloat.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Trust</div>
+                <div class="label">Authority cues placed intentionally, not randomly.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Ops-aware</div>
+                <div class="label">Admin flows that real teams can maintain.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- PROCESS -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">How I build websites</h2>
+          <p class="section-lead">
+            A structured process makes you look like a boutique agency — even solo.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-clipboard-check"></i> Clear scope</span>
+            <span class="pill"><i class="bi bi-diagram-3"></i> Content architecture</span>
+            <span class="pill"><i class="bi bi-kanban"></i> Modular sections</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">1) Strategy</div>
+                <div class="label">Brand goal, target audience, key trust cues.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">2) Structure</div>
+                <div class="label">Sitemap, service hierarchy, CTA journey.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">3) Build</div>
+                <div class="label">Responsive UI with performance-first assets.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">4) Optimize</div>
+                <div class="label">SEO basics, speed, analytics readiness.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">FAQ</h2>
+          <p class="section-lead mb-0">
+            Removes hesitation and positions you as a system-aware web builder.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion" id="faqAcc">
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f1">
+              Do you only do design or also the systems behind it?
+            </button>
+          </h2>
+          <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              I handle both. My strength is building websites that remain stable
+              when connected to real operations — catalogs, admin flows, and structured content.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f2">
+              What types of websites are the best fit for you?
+            </button>
+          </h2>
+          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Corporate websites, B2B service sites, eCommerce ecosystems,
+              and conversion-focused landing pages.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f3">
+              Can you also help with company profiles and copy?
+            </button>
+          </h2>
+          <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Yes. My copywriting and company profile experience helps your website
+              communicate authority and reduce buyer doubt — especially in B2B contexts.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card card-soft">
+        <div class="card-body p-4 p-lg-5">
+          <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+              <h3 class="h2 fw-bold mb-2">Need a corporate site that looks credible immediately?</h3>
+              <p class="text-muted-custom mb-0">
+                I can help you build a clean, trust-first website with the right structure
+                to support growth and real operations — not just aesthetics.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <a class="btn btn-primary btn-lg" href="https://wa.me/60123095550" target="_blank" rel="noopener">
+                  <i class="bi bi-whatsapp"></i> WhatsApp me
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="mailto:hello@bernardchoong.com">
+                  <i class="bi bi-envelope"></i> Email
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="/services">
+                  Service Menu
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="siteFooter"></div>
+
+  <script src="../shared/site-chrome.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

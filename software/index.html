@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Software Development — Bernard Choong</title>
+  <meta name="description" content="Bernard Choong — Full-Stack Software Development. Business platforms, internal tools, automation, and reliable system architecture." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    #themeToggle.btn{
+      border-radius: 999px;
+      padding-inline: .75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    html[data-theme="dark"] #themeToggle{
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text-200);
+      background: rgba(15,23,42,0.4);
+    }
+    html[data-theme="light"] #themeToggle{
+      border-color: rgba(148,163,184,0.5);
+      color: #0f172a;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .section{ padding: 4.5rem 0; }
+
+    .page-hero{
+      padding-top: 7rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .card-soft{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(13,110,253,0.35);
+    }
+
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{ color: var(--muted); }
+
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+    }
+
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, html{ transition: none !important; scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div id="siteHeader"></div>
+
+  <!-- HERO -->
+  <header class="page-hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+          <span class="hero-badge mb-3">
+            <i class="bi bi-code-slash"></i>
+            Full-Stack • Business Systems • Automation
+          </span>
+
+          <h1 class="display-4 hero-title mb-3">
+            Software that survives<br class="d-none d-md-block">
+            real-world operations.
+          </h1>
+
+          <p class="hero-sub mb-4">
+            I’m Bernard Choong. I build practical software systems that reduce manual workload,
+            improve accuracy, and make business workflows faster and easier to manage.
+            My strength is not just writing features — it’s architecting solutions that stay maintainable
+            as the organization grows.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="#work">See Selected Work</a>
+            <a class="btn btn-outline-light btn-lg" href="#what">What I Build</a>
+            <a class="btn btn-outline-light btn-lg" href="/contact">Start a Project</a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-shield-check"></i> Reliability-first</span>
+            <span class="pill"><i class="bi bi-diagram-3"></i> Clean architecture mindset</span>
+            <span class="pill"><i class="bi bi-clipboard-check"></i> Documentation-ready delivery</span>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="text-uppercase text-muted-custom small fw-semibold">Software Snapshot</span>
+                <span class="pill"><i class="bi bi-stars"></i> Primary lane</span>
+              </div>
+
+              <div class="soft-divider my-3"></div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-people"></i></span>
+                <div>
+                  <div class="fw-semibold">Operational Platforms</div>
+                  <div class="text-muted-custom small">
+                    HR, attendance, payroll, admin workflows, role-based access.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-speedometer2"></i></span>
+                <div>
+                  <div class="fw-semibold">Dashboards & Reporting</div>
+                  <div class="text-muted-custom small">
+                    Decision-friendly views, clean data flows, export-friendly structures.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3">
+                <span class="icon-bubble"><i class="bi bi-gear-wide-connected"></i></span>
+                <div>
+                  <div class="fw-semibold">Automation & Integration</div>
+                  <div class="text-muted-custom small">
+                    Reduce repetitive work with structured workflows.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- WHAT I BUILD -->
+  <section id="what" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">What I build</h2>
+          <p class="section-lead mb-0">
+            This page focuses only on software — so clients see depth, not noise.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-person-vcard"></i></div>
+              <h3 class="h5 fw-bold">Business Workflow Systems</h3>
+              <p class="text-muted-custom">
+                Platforms that replace spreadsheets and manual operations
+                with structured roles, permissions, and reliable audit trails.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">RBAC</span>
+                <span class="pill">Admin tooling</span>
+                <span class="pill">Automation-ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-window-dock"></i></div>
+              <h3 class="h5 fw-bold">Dashboards & Data Views</h3>
+              <p class="text-muted-custom">
+                Clean UI for operational oversight and management reporting —
+                focused on clarity, speed, and real-world usage.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Reporting</span>
+                <span class="pill">Data validation</span>
+                <span class="pill">UX-first</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-cart-check"></i></div>
+              <h3 class="h5 fw-bold">eCommerce & Internal Tools</h3>
+              <p class="text-muted-custom">
+                Practical systems that bridge marketing needs and operational
+                accuracy — inventory, orders, content, and admin stability.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Inventory logic</span>
+                <span class="pill">CMS thinking</span>
+                <span class="pill">Performance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-layers"></i></div>
+              <h3 class="h5 fw-bold">Modular Architecture</h3>
+              <p class="text-muted-custom">
+                Systems designed with maintainability in mind —
+                clear boundaries, predictable flows, and scalable structure.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Best practices</span>
+                <span class="pill">Refactor-friendly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-cloud-arrow-up"></i></div>
+              <h3 class="h5 fw-bold">Deployment-aware Builds</h3>
+              <p class="text-muted-custom">
+                I design software with real hosting constraints in mind —
+                uptime, cost, security, and observable performance.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Ops mindset</span>
+                <span class="pill">Stability</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-wrench-adjustable-circle"></i></div>
+              <h3 class="h5 fw-bold">Legacy Improvement</h3>
+              <p class="text-muted-custom">
+                Upgrading existing systems without breaking the business —
+                optimizing structure, UI clarity, and performance.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Risk-managed</span>
+                <span class="pill">Incremental upgrades</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- SELECTED WORK -->
+  <section id="work" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Selected software projects</h2>
+          <p class="section-lead mb-0">
+            Use 3–4 anchor proofs. Each one should show
+            <strong>Problem → Solution → Impact</strong>.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <a class="btn btn-outline-light" href="/#featured">View projects</a>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <!-- TrackHive -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-people"></i> HR Platform</span>
+              <h3 class="h5 fw-bold">TrackHive</h3>
+              <p class="text-muted-custom">
+                Attendance, leave, and payroll workflows designed to reduce
+                HR workload and enforce clean role-based permissions.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">RBAC</span>
+                <span class="pill">Payroll rules</span>
+                <span class="pill">Audit-friendly</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Add screenshots of key modules</li>
+                <li>Include flow diagram or ERD</li>
+                <li>Link demo or repo (if public)</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- DrillingWorld -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-tools"></i> Engineering Tool</span>
+              <h3 class="h5 fw-bold">DrillingWorld</h3>
+              <p class="text-muted-custom">
+                A structured formula and calculation platform designed for speed,
+                accuracy, and clean navigation through complex engineering logic.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Formula engine</span>
+                <span class="pill">UX clarity</span>
+                <span class="pill">Maintainable modules</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Show 1-2 real formula pages</li>
+                <li>Explain the operational pain solved</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- GA2/Cheematrade software -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-building"></i> Enterprise Systems</span>
+              <h3 class="h5 fw-bold">Business Digital Ecosystems</h3>
+              <p class="text-muted-custom">
+                End-to-end operational platforms that connect admin workflows,
+                digital sales, and internal process improvements.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Admin dashboards</span>
+                <span class="pill">Ops alignment</span>
+                <span class="pill">Real deployment constraints</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Use GA2 Medical / Cheematrade examples here</li>
+                <li>Before/after screenshots = huge trust boost</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini proof row -->
+      <div class="row g-3 mt-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Modules shipped</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Active systems supported</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Core tech domains</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X%</div>
+            <div class="label">Process efficiency gains (if you have)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- STACK -->
+  <section id="stack" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Preferred stack & working style</h2>
+          <p class="section-lead mb-0">
+            Keep this honest and clean. Swap in your exact stack.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-4">
+          <div class="card card-soft h-100">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Frontend</h3>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">HTML</span>
+                <span class="pill">CSS</span>
+                <span class="pill">JavaScript</span>
+                <span class="pill">Bootstrap 5</span>
+                <span class="pill">Flutter (if relevant)</span>
+              </div>
+              <p class="text-muted-custom small mt-3 mb-0">
+                Focused on responsive clarity, admin usability, and clean component structure.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft h-100">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Backend</h3>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">PHP</span>
+                <span class="pill">C# / .NET (if applicable)</span>
+                <span class="pill">Node.js (if used)</span>
+                <span class="pill">REST APIs</span>
+              </div>
+              <p class="text-muted-custom small mt-3 mb-0">
+                I prioritize clean service boundaries and predictable business rules.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft h-100">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Data & DevOps</h3>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">MySQL</span>
+                <span class="pill">SQL design</span>
+                <span class="pill">Linux hosting</span>
+                <span class="pill">cPanel/VMs (if used)</span>
+              </div>
+              <p class="text-muted-custom small mt-3 mb-0">
+                Deployment-aware builds that respect uptime, cost, and maintainability.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- PROCESS -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">How I work</h2>
+          <p class="section-lead">
+            This structure helps you look “enterprise serious” even as a solo builder.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Clear scope</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Modular delivery</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Documentation handover</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">1) Discover</div>
+                <div class="label">Workflow mapping, pain points, success criteria.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">2) Architect</div>
+                <div class="label">Roles, modules, data design, risk control.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">3) Build</div>
+                <div class="label">Incremental delivery with stable milestones.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">4) Optimize</div>
+                <div class="label">Performance, UX cleanup, maintenance plan.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">FAQ</h2>
+          <p class="section-lead mb-0">
+            Quietly removes trust objections.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion" id="faqAcc">
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f1">
+              Are you more of a developer or a marketer?
+            </button>
+          </h2>
+          <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              My core lane is software development. My marketing and brand experience
+              helps me build systems that are not just functional — but deployable,
+              presentable, and aligned with real business growth.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f2">
+              What kind of software projects are the best fit?
+            </button>
+          </h2>
+          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Operational platforms, admin dashboards, workflow automation,
+              and real-world systems that replace manual processes.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f3">
+              Can you also handle hosting or infrastructure decisions?
+            </button>
+          </h2>
+          <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Yes — I build with deployment in mind. If your project needs
+              infrastructure alignment, I can advise on stable, cost-aware options
+              and ensure the software is designed to run reliably.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card card-soft">
+        <div class="card-body p-4 p-lg-5">
+          <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+              <h3 class="h2 fw-bold mb-2">Want a software system that actually sticks?</h3>
+              <p class="text-muted-custom mb-0">
+                If your team is stuck with manual workflows or messy admin tools,
+                I can help you design a clean system that your business can grow into.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <a class="btn btn-primary btn-lg" href="https://wa.me/60123095550" target="_blank" rel="noopener">
+                  <i class="bi bi-whatsapp"></i> WhatsApp me
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="mailto:hello@bernardchoong.com">
+                  <i class="bi bi-envelope"></i> Email
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="/services">
+                  Service Menu
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="siteFooter"></div>
+
+  <script src="../shared/site-chrome.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

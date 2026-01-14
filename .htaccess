@@ -1,0 +1,4 @@
+# Portfolio 404 handler (XAMPP: /portfolio/...)
+# If you deploy this folder as the site root, change to: ErrorDocument 404 /404.html
+ErrorDocument 404 /portfolio/404.html
+

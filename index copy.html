@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bernard Choong — Systems Builder</title>
+  <meta name="description" content="Bernard Choong — Full-Stack Developer & Systems Builder. I deliver business-ready software, infrastructure, and digital assets that work together." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Bernard Choong — Systems Builder" />
+  <meta property="og:description" content="Full-Stack Developer & Systems Builder. Software, infrastructure, and digital growth — integrated." />
+  <meta property="og:type" content="website" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Fonts (optional, safe fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    /* Navbar */
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    #themeToggle.btn{
+      border-radius: 999px;
+      padding-inline: .75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    html[data-theme="dark"] #themeToggle{
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text-200);
+      background: rgba(15,23,42,0.4);
+    }
+    html[data-theme="light"] #themeToggle{
+      border-color: rgba(148,163,184,0.5);
+      color: #0f172a;
+      background: rgba(255,255,255,0.9);
+    }
+
+    /* Hero */
+    .hero{
+      padding-top: 7rem;
+      padding-bottom: 4.5rem;
+    }
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+    .hero-panel{
+      background:
+        linear-gradient(135deg, rgba(13,110,253,0.08), rgba(34,211,238,0.06)),
+        rgba(255,255,255,0.02);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Cards */
+    .card-soft{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+    .card-soft .card-title{
+      font-weight: 700;
+    }
+    .card-soft .card-text{
+      color: var(--muted);
+    }
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(13,110,253,0.35);
+    }
+
+    /* Section headings */
+    .section{
+      padding: 4.5rem 0;
+    }
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{
+      color: var(--muted);
+    }
+
+    /* Badges */
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+    }
+
+    /* Service icon bubble */
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    /* Stats */
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* Divider */
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    /* Footer */
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    /* Buttons */
+    .btn-primary{
+      box-shadow: 0 8px 20px rgba(13,110,253,0.25);
+    }
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    /* Small polish */
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, html{ transition: none !important; scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="#">
+        <span class="pill"><i class="bi bi-cpu"></i> Bernard</span>
+        <span class="d-none d-sm-inline text-muted-custom">Systems Builder</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMain">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+            <li class="nav-item"><a class="nav-link" href="#services">Specialties</a></li>
+            <li class="nav-item"><a class="nav-link" href="#featured">Featured Work</a></li>
+            <li class="nav-item"><a class="nav-link" href="#approach">Approach</a></li>
+            <li class="nav-item"><a class="nav-link" href="#proof">Proof</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item ms-lg-2">
+              <a class="btn btn-sm btn-primary" href="/#featured">
+                Projects
+              </a>
+            </li>
+            <li class="nav-item ms-lg-2">
+              <button class="btn btn-sm btn-outline-light" type="button" id="themeToggle" aria-label="Toggle light and dark mode">
+                <i class="bi bi-moon-stars" id="themeIcon"></i>
+              </button>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <div class="col-lg-7">
+          <span class="hero-badge mb-3">
+            <i class="bi bi-diagram-3"></i>
+            Full-Stack Developer • Infrastructure • Digital Growth
+          </span>
+
+          <h1 class="display-4 hero-title mb-3">
+            I build business-ready systems<br class="d-none d-md-block">
+            end-to-end.
+          </h1>
+
+          <p class="hero-sub mb-4">
+            I’m Bernard Choong — a Systems Builder who connects
+            <strong>software</strong>, <strong>infrastructure</strong>, and
+            <strong>digital execution</strong> into one coherent ecosystem.
+            The goal: less chaos, more reliable outcomes.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="#featured">
+              View Featured Work
+            </a>
+            <a class="btn btn-outline-light btn-lg" href="software/">
+              Software Profile
+            </a>
+            <a class="btn btn-outline-light btn-lg" href="#services">
+              Explore Specialties
+            </a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-braces"></i> Clean architecture mindset</span>
+            <span class="pill"><i class="bi bi-shield-check"></i> Reliability-first delivery</span>
+            <span class="pill"><i class="bi bi-lightning-charge"></i> Real-world operator</span>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="hero-panel">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="text-uppercase text-muted-custom small fw-semibold">Quick Snapshot</span>
+              <span class="pill"><i class="bi bi-stars"></i> Multi-domain</span>
+            </div>
+
+            <div class="soft-divider my-3"></div>
+
+            <div class="row g-3">
+              <div class="col-12">
+                <div class="d-flex gap-3">
+                  <span class="icon-bubble"><i class="bi bi-window-stack"></i></span>
+                  <div>
+                    <div class="fw-semibold">Software Systems</div>
+                    <div class="text-muted-custom small">
+                      Business apps, internal dashboards, automation,
+                      role-based platforms.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="d-flex gap-3">
+                  <span class="icon-bubble"><i class="bi bi-router"></i></span>
+                  <div>
+                    <div class="fw-semibold">Infrastructure & Ops</div>
+                    <div class="text-muted-custom small">
+                      Networking integration, office reliability, CCTV-ready setups,
+                      hardware upgrades.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="d-flex gap-3">
+                  <span class="icon-bubble"><i class="bi bi-megaphone"></i></span>
+                  <div>
+                    <div class="fw-semibold">Digital Growth & Brand</div>
+                    <div class="text-muted-custom small">
+                      Company profiles, copywriting, blogs,
+                      photo/video assets that support conversion.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="soft-divider my-3"></div>
+
+            <div class="d-flex flex-wrap gap-2">
+              <a class="btn btn-sm btn-outline-light" href="networking/">Networking</a>
+              <a class="btn btn-sm btn-outline-light" href="cctv/">CCTV</a>
+              <a class="btn btn-sm btn-outline-light" href="/hardware">Hardware/Servers</a>
+              <a class="btn btn-sm btn-outline-light" href="websites/">Web Platforms</a>
+              <a class="btn btn-sm btn-outline-light" href="/marketing">Digital Growth</a>
+              <a class="btn btn-sm btn-outline-light" href="/copywriting">Company Profiles</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- SPECIALTIES GRID -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4 g-2">
+        <div class="col-lg-7">
+          <h2 class="section-title h1 mb-2">Specialty pages, not a messy one-page pitch.</h2>
+          <p class="section-lead mb-0">
+            Each area has its own focused profile so clients can quickly see
+            relevant proof without the “too wide = suspicious” effect.
+          </p>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <span class="pill"><i class="bi bi-link-45deg"></i> Share the right link per client</span>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <!-- Software -->
+        <div class="col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="software/">
+            <div class="card card-soft hover-lift h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="icon-bubble"><i class="bi bi-code-slash"></i></span>
+                  <div>
+                    <div class="pill">Primary</div>
+                  </div>
+                </div>
+                <h3 class="card-title h5">Software Development</h3>
+                <p class="card-text">
+                  Business platforms, internal tools, automation, role-based systems,
+                  clean architecture focus.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="pill">SaaS-style thinking</span>
+                  <span class="pill">Admin dashboards</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <span class="link-soft small">Open /software →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Web Platforms -->
+        <div class="col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="websites/">
+            <div class="card card-soft hover-lift h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="icon-bubble"><i class="bi bi-globe2"></i></span>
+                </div>
+                <h3 class="card-title h5">Website & Platform Builder</h3>
+                <p class="card-text">
+                  Corporate sites, eCommerce, landing pages, and
+                  integrated content systems.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="pill">Performance</span>
+                  <span class="pill">SEO-ready structure</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <span class="link-soft small">Open /websites →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Networking -->
+        <div class="col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="networking/">
+            <div class="card card-soft hover-lift h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="icon-bubble"><i class="bi bi-router"></i></span>
+                </div>
+                <h3 class="card-title h5">Networking</h3>
+                <p class="card-text">
+                  Office network design, device integration, stability-first setups
+                  supporting business operations.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="pill">SME-ready</span>
+                  <span class="pill">Documentation</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <span class="link-soft small">Open /networking →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- CCTV -->
+        <div class="col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="cctv/">
+            <div class="card card-soft hover-lift h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="icon-bubble"><i class="bi bi-camera-video"></i></span>
+                </div>
+                <h3 class="card-title h5">CCTV Systems</h3>
+                <p class="card-text">
+                  Practical camera planning, NVR sizing guidance, and network-aware
+                  deployment strategy.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="pill">Placement strategy</span>
+                  <span class="pill">Remote access</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <span class="link-soft small">Open /cctv →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Hardware -->
+        <div class="col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="/hardware">
+            <div class="card card-soft hover-lift h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="icon-bubble"><i class="bi bi-hdd-network"></i></span>
+                </div>
+                <h3 class="card-title h5">Hardware & Servers</h3>
+                <p class="card-text">
+                  Upgrade planning, PC/server builds with cost-performance logic,
+                  and long-term maintainability.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="pill">Budget tiers</span>
+                  <span class="pill">Reliability</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <span class="link-soft small">Open /hardware →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Digital Growth -->
+        <div class="col-md-6 col-lg-4">
+          <a class="text-decoration-none" href="/marketing">
+            <div class="card card-soft hover-lift h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <span class="icon-bubble"><i class="bi bi-graph-up-arrow"></i></span>
+                </div>
+                <h3 class="card-title h5">Digital Growth & Brand</h3>
+                <p class="card-text">
+                  Company profiles, persuasive copy, blog strategy, and
+                  asset creation that supports trust and conversion.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="pill">Company profiles</span>
+                  <span class="pill">Copy & blog</span>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+                <span class="link-soft small">Open /marketing →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- FEATURED WORK -->
+  <section id="featured" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Featured work that proves the range is real.</h2>
+          <p class="section-lead mb-0">
+            These are your “anchor proofs.” They make everything else believable.
+            Replace placeholders with your real screenshots and links.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <a class="btn btn-outline-light" href="/#featured">View projects</a>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <!-- TrackHive -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-people"></i> HR / SaaS</span>
+              <h3 class="h5 fw-bold">TrackHive</h3>
+              <p class="text-muted-custom">
+                Attendance, leave, and payroll workflows designed to reduce
+                HR overhead and enforce clean role-based control.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">ASP.NET / C# (if applicable)</span>
+                <span class="pill">RBAC</span>
+                <span class="pill">Automation</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Problem → Solution framing ready</li>
+                <li>Add screenshots + flow diagram</li>
+                <li>Link to demo or repo</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- DrillingWorld -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-tools"></i> Engineering Tools</span>
+              <h3 class="h5 fw-bold">DrillingWorld</h3>
+              <p class="text-muted-custom">
+                A calculation-first engineering platform that focuses on speed,
+                accuracy, and structured workflows.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Web + Mobile logic</span>
+                <span class="pill">Formula engine</span>
+                <span class="pill">UX clarity</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Show sample formula pages</li>
+                <li>Explain the pain points solved</li>
+                <li>Highlight maintainability</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Business Ecosystem -->
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-building"></i> Business Ecosystem</span>
+              <h3 class="h5 fw-bold">Enterprise Digital Rebuild</h3>
+              <p class="text-muted-custom">
+                End-to-end platform modernization combining web systems,
+                operations readiness, and brand execution.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">eCommerce ops</span>
+                <span class="pill">Content engine</span>
+                <span class="pill">Infra awareness</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Use GA2/Cheematrade case study here</li>
+                <li>Include before/after screenshots</li>
+                <li>List specific modules shipped</li>
+              </ul>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+              <a class="link-soft small" href="/#featured">Projects →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- APPROACH -->
+  <section id="approach" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">My approach: integration over hype.</h2>
+          <p class="section-lead">
+            I’m not a “list-of-skills” freelancer.
+            I’m a systems operator who builds solutions that survive real-world constraints:
+            budget, people, maintenance, and business growth.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Business-first design</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Documented delivery</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Maintainable structure</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Assess</div>
+                <div class="label">Understand workflow, risks, and real constraints.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Build</div>
+                <div class="label">Ship clean modules with clear roles and boundaries.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Integrate</div>
+                <div class="label">Connect software + infra + digital execution logically.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Optimize</div>
+                <div class="label">Performance, stability, and long-term sustainability.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- PROOF / TRUST -->
+  <section id="proof" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Trust signals that reduce doubt fast.</h2>
+          <p class="section-lead mb-0">
+            Replace these with your real numbers and artifacts.
+            Even modest stats make you look serious when clearly stated.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Business systems shipped</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Industries served</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Company profiles & brand assets</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Infra/hardware deployments supported</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-2">
+        <div class="col-lg-6">
+          <div class="card card-soft h-100">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">Evidence Wall (recommended)</h3>
+              <p class="text-muted-custom mb-3">
+                Add screenshots, architecture diagrams, system modules,
+                or blurred client deliverables. This is the fastest way to signal legitimacy.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">UI screenshots</span>
+                <span class="pill">ERD / UML snippets</span>
+                <span class="pill">Before/after pages</span>
+                <span class="pill">Network topology sketches</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card card-soft h-100">
+            <div class="card-body">
+              <h3 class="h5 fw-bold">What I ship (not just what I know)</h3>
+              <p class="text-muted-custom mb-3">
+                Your multi-skill is believable because it’s connected by outcomes:
+                stability, efficiency, and growth.
+              </p>
+              <ul class="text-muted-custom mb-0">
+                <li>Operational dashboards</li>
+                <li>Automation workflows</li>
+                <li>Corporate platforms</li>
+                <li>Business-ready network & CCTV planning</li>
+                <li>Cost-performance hardware proposals</li>
+                <li>Company profiles + conversion-focused content</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="soft-divider"></div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+          <h2 class="section-title h1 mb-2">Let’s build something that actually lasts.</h2>
+          <p class="section-lead">
+            If you’re unsure which specialty fits your needs,
+            start here — I’ll route you to the right solution lane.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="mailto:hello@bernardchoong.com">
+              <i class="bi bi-envelope"></i> Email Me
+            </a>
+                <a class="btn btn-outline-light btn-lg" href="/services">
+              View Service Menu
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card card-soft">
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="pill"><i class="bi bi-person-badge"></i> Quick Links</span>
+              </div>
+              <div class="list-group list-group-flush">
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="software/">
+                    <i class="bi bi-code-slash me-2"></i> Software Development Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="networking/">
+                    <i class="bi bi-router me-2"></i> Networking Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="cctv/">
+                    <i class="bi bi-camera-video me-2"></i> CCTV Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="algo-trading/">
+                    <i class="bi bi-graph-up-arrow me-2"></i> Algorithmic Trading Profile
+                  </a>
+                  <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="/hardware">
+                    <i class="bi bi-hdd-network me-2"></i> Hardware/Servers Profile
+                  </a>
+                <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="/marketing">
+                  <i class="bi bi-graph-up-arrow me-2"></i> Digital Growth Profile
+                </a>
+                <a class="list-group-item bg-transparent text-white border-0 px-0 py-2 link-soft" href="/copywriting">
+                  <i class="bi bi-journal-text me-2"></i> Company Profiles & Copywriting
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-4">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
+        <div class="text-muted-custom small">
+          © <span id="year"></span> Bernard Choong. Systems Builder.
+        </div>
+        <div class="d-flex gap-3">
+          <a class="link-soft small" href="/#featured">Projects</a>
+          <a class="link-soft small" href="/services">Service Menu</a>
+          <a class="link-soft small" href="/about">About</a>
+          <a class="link-soft small" href="mailto:hello@bernardchoong.com">Email</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function(){
+      const root = document.documentElement;
+      const storedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+
+      function applyTheme(theme){
+        root.setAttribute('data-theme', theme);
+        root.setAttribute('data-bs-theme', theme === 'dark' ? 'dark' : 'light');
+        const icon = document.getElementById('themeIcon');
+        if(icon){
+          icon.classList.remove('bi-moon-stars','bi-sun');
+          icon.classList.add(theme === 'dark' ? 'bi-moon-stars' : 'bi-sun');
+        }
+      }
+
+      applyTheme(initialTheme);
+
+      const toggle = document.getElementById('themeToggle');
+      if(toggle){
+        toggle.addEventListener('click', function(){
+          const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          applyTheme(nextTheme);
+          try{
+            localStorage.setItem('theme', nextTheme);
+          }catch(e){}
+        });
+      }
+
+      // footer year
+      var yearEl = document.getElementById('year');
+      if(yearEl){
+        yearEl.textContent = new Date().getFullYear();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sales Systems — Blackline Systems</title>
+  <meta name="description" content="Blackline Systems — Sales Systems by Bernard Choong. Consultative sales, offer design, funnel alignment, and human-centered conversion frameworks built with clarity and ethics." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+        radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+        linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    .section{ padding: 4.5rem 0; }
+    .page-hero{ padding-top: 7rem; padding-bottom: 3.5rem; }
+
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{ color: var(--muted); font-size: 1.08rem; }
+
+    .card-soft{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(13,110,253,0.35);
+    }
+
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{ color: var(--muted); }
+
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+    }
+
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    .accordion-button{ font-weight: 600; }
+    .accordion-button:not(.collapsed){
+      background: rgba(255,255,255,0.04);
+      color: var(--text-100);
+      box-shadow: none;
+    }
+    .accordion-button:focus{
+      border-color: rgba(13,110,253,0.4);
+      box-shadow: none;
+    }
+
+    .ethics-note{
+      border: 1px dashed rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, html{ transition: none !important; scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div id="siteHeader"></div>
+
+  <!-- HERO -->
+  <header class="page-hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+          <span class="hero-badge mb-3">
+            <i class="bi bi-chat-square-text"></i>
+            Consultative Sales • Funnels • Offer Strategy
+          </span>
+
+          <h1 class="display-4 hero-title mb-3">
+            Sales built like a system,<br class="d-none d-md-block">
+            not a personality contest.
+          </h1>
+
+          <p class="hero-sub mb-4">
+            I help businesses design sales that feel honest, structured, and measurable.
+            This includes offer positioning, funnel messaging, objection handling,
+            and lightweight sales playbooks that align with your brand and operations.
+            The goal is sustainable conversion — not aggressive hype.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="#what">Capabilities</a>
+            <a class="btn btn-outline-light btn-lg" href="#framework">My Sales Logic</a>
+            <a class="btn btn-outline-light btn-lg" href="/branding">Branding Link</a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Human-first persuasion</span>
+            <span class="pill"><i class="bi bi-diagram-3"></i> Systemized follow-ups</span>
+            <span class="pill"><i class="bi bi-shield-check"></i> Ethics > pressure</span>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="text-uppercase text-muted-custom small fw-semibold">Sales Snapshot</span>
+                <span class="pill"><i class="bi bi-graph-up"></i> Revenue-ready</span>
+              </div>
+
+              <div class="soft-divider my-3"></div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-bullseye"></i></span>
+                <div>
+                  <div class="fw-semibold">Offer Clarity</div>
+                  <div class="text-muted-custom small">
+                    Define what you sell, who it’s for, and why it’s worth choosing.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-funnel"></i></span>
+                <div>
+                  <div class="fw-semibold">Funnel Alignment</div>
+                  <div class="text-muted-custom small">
+                    Connect marketing intent to sales action without disconnect.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3">
+                <span class="icon-bubble"><i class="bi bi-journal-check"></i></span>
+                <div>
+                  <div class="fw-semibold">Playbooks</div>
+                  <div class="text-muted-custom small">
+                    Simple scripts, follow-up rules, and objection maps.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Ethics note -->
+      <div class="row mt-4">
+        <div class="col-lg-10">
+          <div class="ethics-note p-3 p-md-4">
+            <div class="d-flex gap-2 align-items-start">
+              <i class="bi bi-info-circle text-info mt-1"></i>
+              <div class="text-muted-custom small">
+                I don’t sell “guaranteed revenue” narratives. Sales outcomes depend on
+                market fit, pricing, execution consistency, and demand conditions.
+                My focus is building a clear, ethical, and repeatable sales system.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- WHAT I DO -->
+  <section id="what" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">What I do</h2>
+          <p class="section-lead mb-0">
+            Sales services that make your business look structured, credible, and easy to trust.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-compass"></i></div>
+              <h3 class="h5 fw-bold">Sales Strategy & Positioning</h3>
+              <p class="text-muted-custom">
+                Clarify your market lane, pricing logic, and differentiation so your
+                sales conversation stops feeling vague or defensive.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Market-fit focus</span>
+                <span class="pill">Clarity-first</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-box-seam"></i></div>
+              <h3 class="h5 fw-bold">Offer Architecture</h3>
+              <p class="text-muted-custom">
+                Turn features into value, structure packages, and build an offer
+                that feels inevitable to the right buyer.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Packages</span>
+                <span class="pill">Value mapping</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-funnel"></i></div>
+              <h3 class="h5 fw-bold">Funnel-to-Sales Alignment</h3>
+              <p class="text-muted-custom">
+                Ensure your marketing promises match your sales delivery,
+                reducing drop-offs and trust gaps.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Messaging sync</span>
+                <span class="pill">Lower friction</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-chat-dots"></i></div>
+              <h3 class="h5 fw-bold">Sales Scripts (High-Level)</h3>
+              <p class="text-muted-custom">
+                Build structured, natural conversation flows for discovery,
+                qualification, and confident closing.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Consultative tone</span>
+                <span class="pill">Brand-safe</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-exclamation-circle"></i></div>
+              <h3 class="h5 fw-bold">Objection Architecture</h3>
+              <p class="text-muted-custom">
+                Identify likely pushbacks and build clean, calm answers that
+                reinforce trust instead of pressure.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Trust-first</span>
+                <span class="pill">Reduced anxiety</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-clipboard-data"></i></div>
+              <h3 class="h5 fw-bold">Lightweight Sales Playbooks</h3>
+              <p class="text-muted-custom">
+                A simple internal guide so your team can sell consistently
+                without relying on one “star performer.”
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Repeatable process</span>
+                <span class="pill">Team-ready</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- FRAMEWORKS -->
+  <section id="framework" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">Sales logic I use</h2>
+          <p class="section-lead">
+            Your advantage is psychological clarity mixed with technical discipline.
+            These frameworks keep your approach structured and non-cringe.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-lightning-charge"></i> HPDAC</span>
+            <span class="pill"><i class="bi bi-person-check"></i> Consultative discovery</span>
+            <span class="pill"><i class="bi bi-diagram-2"></i> Systems thinking</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">HPDAC Structure</div>
+                <div class="label">Hook → Problem → Desire → Authority → Call to Action.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Value Translation</div>
+                <div class="label">Converts features into measurable outcomes for buyers.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Trust Mechanics</div>
+                <div class="label">Builds confidence without manipulative pressure.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Follow-Up Rhythm</div>
+                <div class="label">Systemized touchpoints that feel human, not spammy.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-soft mt-3">
+            <div class="card-body">
+              <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-link-45deg text-info"></i>
+                <div class="text-muted-custom small">
+                  For the broader brand + marketing layer that feeds sales, see the growth and branding profiles.
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <a class="btn btn-outline-light btn-sm" href="/growth">/growth →</a>
+                <a class="btn btn-outline-light btn-sm" href="/branding">/branding →</a>
+                <a class="btn btn-outline-light btn-sm" href="/copywriting">/copywriting →</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- OFFER TYPES -->
+  <section id="offers" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Where I’m most effective</h2>
+          <p class="section-lead mb-0">
+            This keeps your page sharp and reduces the “too broad” bias.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-building"></i> B2B Services</span>
+              <h3 class="h5 fw-bold">Consultative, high-trust sales</h3>
+              <p class="text-muted-custom">
+                Ideal for agencies, IT solutions, engineering support,
+                healthcare-related services, and long-cycle decision-making.
+              </p>
+              <ul class="text-muted-custom small mb-0">
+                <li>Clear discovery flows</li>
+                <li>Proposal & value logic alignment</li>
+                <li>Objection map design</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-cart-check"></i> Product Brands</span>
+              <h3 class="h5 fw-bold">Offer + content synergy</h3>
+              <p class="text-muted-custom">
+                Great for brands that need clean product positioning,
+                persuasive but ethical messaging, and conversion-aware landing flows.
+              </p>
+              <ul class="text-muted-custom small mb-0">
+                <li>Bundle architecture</li>
+                <li>Value-driven copy angle</li>
+                <li>Trust signals layout</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-rocket-takeoff"></i> 0→1 Launch</span>
+              <h3 class="h5 fw-bold">Early-stage revenue skeleton</h3>
+              <p class="text-muted-custom">
+                When a new business needs structured messaging,
+                a clear first offer, and a simple sales engine that can scale.
+              </p>
+              <ul class="text-muted-custom small mb-0">
+                <li>First offer design</li>
+                <li>Basic funnel path</li>
+                <li>Founder-led sales playbook</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats placeholders -->
+      <div class="row g-3 mt-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">Sales scripts/playbooks built</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Launch & growth setups</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Industries supported</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">Calm selling</div>
+            <div class="label">Trust > pressure</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- PROCESS -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">How I build a sales system</h2>
+          <p class="section-lead">
+            Simple, professional, and engineered like an internal product.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Discovery-first</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Offer precision</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Repeatable delivery</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">1) Diagnose</div>
+                <div class="label">Market, current funnel, and conversion breakpoints.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">2) Rebuild Offer</div>
+                <div class="label">Value mapping, packages, pricing clarity.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">3) Script & Flow</div>
+                <div class="label">Discovery, objections, follow-ups, closing rhythm.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">4) Handover</div>
+                <div class="label">Sales guide usable by founders or teams.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">FAQ</h2>
+          <p class="section-lead mb-0">
+            This protects your credibility and filters wrong-fit clients.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion" id="faqAcc">
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f1">
+              Is this “marketing” or “sales”?
+            </button>
+          </h2>
+          <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Sales is the conversion engine. Marketing is the demand engine.
+              I focus on sales structure, while ensuring your marketing promises
+              align with the sales conversation.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f2">
+              Do you provide aggressive closing scripts?
+            </button>
+          </h2>
+          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              I lean toward consultative, trust-driven scripts that reflect your brand.
+              The goal is confident clarity, not pressure tactics.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f3">
+              Can you help with 0→1 business setup?
+            </button>
+          </h2>
+          <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Yes. For new ventures, I can help structure a first offer,
+              a basic funnel path, and a founder-led sales flow.
+              See the business build profile for the full ecosystem approach.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card card-soft">
+        <div class="card-body p-4 p-lg-5">
+          <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+              <h3 class="h2 fw-bold mb-2">Want a calmer, stronger sales engine?</h3>
+              <p class="text-muted-custom mb-0">
+                I help founders and teams build sales systems that feel human,
+                align with brand identity, and scale through clear playbooks.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <a class="btn btn-primary btn-lg" href="/contact">
+                  <i class="bi bi-envelope"></i> Discuss Your Sales Setup
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="/business-build">
+                  Business Build
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="siteFooter"></div>
+
+  <script src="../shared/site-chrome.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

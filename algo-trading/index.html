@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Algorithmic Trading (MQL4/MQL5) — Bernard Choong</title>
+  <meta name="description" content="Bernard Choong — Algorithmic Trading & Expert Advisor Development (MQL4/MQL5). Strategy-to-automation, risk-aware systems, and performance-focused execution." />
+  <meta name="author" content="Bernard Choong" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#0b1220;
+      --bg-850:#0f172a;
+      --bg-800:#111827;
+      --surface:#0f1b2d;
+      --text-100:#f8fafc;
+      --text-200:#e5e7eb;
+      --text-300:#cbd5e1;
+      --muted:#9aa7bd;
+      --primary:#0d6efd;
+      --accent:#22d3ee;
+      --border-soft: rgba(255,255,255,0.08);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+      --radius-xl: 1.25rem;
+    }
+
+    :root[data-theme="light"]{
+      --bg-900:#f8fafc;
+      --bg-850:#e5e7eb;
+      --bg-800:#d1d5db;
+      --surface:#ffffff;
+      --text-100:#0b1120;
+      --text-200:#111827;
+      --text-300:#374151;
+      --muted:#4b5563;
+      --primary:#0d6efd;
+      --accent:#0891b2;
+      --border-soft: rgba(15,23,42,0.08);
+      --shadow-soft: 0 10px 30px rgba(15,23,42,0.12);
+    }
+
+    html, body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(13,110,253,0.18), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(34,211,238,0.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg-900), var(--bg-850) 35%, var(--bg-900) 100%);
+      color: var(--text-100);
+      scroll-behavior: smooth;
+    }
+
+    .navbar{
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    html[data-theme="dark"] .navbar{
+      background: #020617;
+    }
+    html[data-theme="light"] .navbar{
+      background: #f9fafb;
+    }
+    .navbar .nav-link{
+      color: var(--text-300);
+      font-weight: 500;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link:focus{
+      color: var(--text-100);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:hover,
+    html[data-theme="light"] .navbar-dark .navbar-nav .nav-link:focus{
+      color: var(--text-100);
+    }
+
+    #themeToggle.btn{
+      border-radius: 999px;
+      padding-inline: .75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    html[data-theme="dark"] #themeToggle{
+      border-color: rgba(148,163,184,0.6);
+      color: var(--text-200);
+      background: rgba(15,23,42,0.4);
+    }
+    html[data-theme="light"] #themeToggle{
+      border-color: rgba(148,163,184,0.5);
+      color: #0f172a;
+      background: rgba(255,255,255,0.9);
+    }
+
+    .section{ padding: 4.5rem 0; }
+
+    .page-hero{
+      padding-top: 7rem;
+      padding-bottom: 3.5rem;
+    }
+
+    .hero-badge{
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .35rem .75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      font-size: .85rem;
+    }
+
+    .hero-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .hero-sub{
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .card-soft{
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hover-lift{
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .hover-lift:hover{
+      transform: translateY(-4px);
+      border-color: rgba(13,110,253,0.35);
+    }
+
+    .section-title{
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .section-lead{ color: var(--muted); }
+
+    .pill{
+      display: inline-flex;
+      align-items:center;
+      gap:.4rem;
+      padding:.35rem .6rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-200);
+      white-space: nowrap;
+    }
+
+    .icon-bubble{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(13,110,253,0.16);
+      border: 1px solid rgba(13,110,253,0.30);
+      color: #dbeafe;
+      font-size: 1.2rem;
+      flex: 0 0 auto;
+    }
+    html[data-theme="light"] .icon-bubble{
+      background: rgba(59,130,246,0.08);
+      border-color: rgba(59,130,246,0.18);
+      color: #1d4ed8;
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    }
+
+    .soft-divider{
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10), transparent);
+    }
+
+    .stat{
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+      padding: 1.25rem;
+    }
+    .stat .number{
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .stat .label{
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .btn-outline-light{
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text-100);
+    }
+    .btn-outline-light:hover{
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .text-muted-custom{ color: var(--muted) !important; }
+    .link-soft{
+      color: var(--text-200);
+      text-decoration: none;
+    }
+    .link-soft:hover{
+      color: var(--text-100);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    html[data-theme="light"] .text-white{
+      color: var(--text-200) !important;
+    }
+    html[data-theme="light"] .link-soft{
+      color: var(--text-300);
+    }
+    html[data-theme="light"] .link-soft:hover{
+      color: var(--text-100);
+    }
+
+    footer{
+      border-top: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.01);
+    }
+
+    .accordion-button{ font-weight: 600; }
+    .accordion-button:not(.collapsed){
+      background: rgba(255,255,255,0.04);
+      color: white;
+      box-shadow: none;
+    }
+    .accordion-button:focus{
+      border-color: rgba(13,110,253,0.4);
+      box-shadow: none;
+    }
+
+    .risk-note{
+      border: 1px dashed rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-xl);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .hover-lift, .btn, html{ transition: none !important; scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div id="siteHeader"></div>
+
+  <!-- HERO -->
+  <header class="page-hero">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <div class="col-lg-8">
+          <span class="hero-badge mb-3">
+            <i class="bi bi-robot"></i>
+            MQL4 • MQL5 • Strategy-to-Automation
+          </span>
+
+          <h1 class="display-4 hero-title mb-3">
+            Automated trading systems<br class="d-none d-md-block">
+            built with engineering discipline.
+          </h1>
+
+          <p class="hero-sub mb-4">
+            I design and build Expert Advisors for MetaTrader (MQL4/MQL5),
+            with a focus on clarity, risk control, and long-term maintainability.
+            My approach aims for stability over hype — small but steady system behavior,
+            clean rule logic, and realistic deployment expectations.
+          </p>
+
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" href="#what">Capabilities</a>
+            <a class="btn btn-outline-light btn-lg" href="#work">Selected Systems</a>
+            <a class="btn btn-outline-light btn-lg" href="/contact">Discuss Your Strategy</a>
+          </div>
+
+          <div class="mt-4 d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-shield-check"></i> Risk-aware design</span>
+            <span class="pill"><i class="bi bi-diagram-3"></i> Modular logic</span>
+            <span class="pill"><i class="bi bi-clipboard-check"></i> Documented rules</span>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="text-uppercase text-muted-custom small fw-semibold">EA Snapshot</span>
+                <span class="pill"><i class="bi bi-graph-up"></i> Systems-first</span>
+              </div>
+
+              <div class="soft-divider my-3"></div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-braces"></i></span>
+                <div>
+                  <div class="fw-semibold">Rule-Based EAs</div>
+                  <div class="text-muted-custom small">
+                    Clear conditions, readable structure, maintainable upgrades.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3 mb-3">
+                <span class="icon-bubble"><i class="bi bi-exclamation-triangle"></i></span>
+                <div>
+                  <div class="fw-semibold">Risk & Guardrails</div>
+                  <div class="text-muted-custom small">
+                    Safety logic for volatility, spreads, and abnormal conditions.
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3">
+                <span class="icon-bubble"><i class="bi bi-gear-wide-connected"></i></span>
+                <div>
+                  <div class="fw-semibold">Strategy Automation</div>
+                  <div class="text-muted-custom small">
+                    Convert your manual system into a disciplined execution engine.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Risk disclaimer -->
+      <div class="row mt-4">
+        <div class="col-lg-10">
+          <div class="risk-note p-3 p-md-4">
+            <div class="d-flex gap-2 align-items-start">
+              <i class="bi bi-info-circle text-info mt-1"></i>
+              <div class="text-muted-custom small">
+                <strong>Risk note:</strong> Automated trading involves substantial risk and
+                performance can vary across brokers, market regimes, and timeframes.
+                I focus on building reliable rule-based systems and risk-aware execution,
+                not guaranteeing profits.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- WHAT I BUILD -->
+  <section id="what" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">What I build</h2>
+          <p class="section-lead mb-0">
+            Built like software products — structured logic, testable rules, and low-maintenance upgrades.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-robot"></i></div>
+              <h3 class="h5 fw-bold">Expert Advisors (MQL4/MQL5)</h3>
+              <p class="text-muted-custom">
+                Clean, modular EAs that prioritize predictable execution and
+                operational stability over “black box” mystery.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Readable logic</span>
+                <span class="pill">Modular design</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-sliders"></i></div>
+              <h3 class="h5 fw-bold">Strategy-to-Automation</h3>
+              <p class="text-muted-custom">
+                If you already have a manual trading system,
+                I can help translate it into disciplined rules and automated execution.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Your rules, automated</span>
+                <span class="pill">Scope clarity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-shield-check"></i></div>
+              <h3 class="h5 fw-bold">Risk Guardrails</h3>
+              <p class="text-muted-custom">
+                Protection logic for spreads, volatility spikes,
+                session filters, and predefined risk rules.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Drawdown-aware</span>
+                <span class="pill">Broker conditions aware</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-activity"></i></div>
+              <h3 class="h5 fw-bold">Market Regime Logic</h3>
+              <p class="text-muted-custom">
+                Systems designed to behave differently across trending,
+                ranging, and high-volatility phases.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Adaptive rules</span>
+                <span class="pill">Stable behavior</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-tools"></i></div>
+              <h3 class="h5 fw-bold">Refactor & Debug</h3>
+              <p class="text-muted-custom">
+                Improve existing EAs by cleaning structure,
+                fixing logic edge cases, and improving maintainability.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Bug hunting</span>
+                <span class="pill">Performance cleanup</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <div class="icon-bubble mb-3"><i class="bi bi-file-earmark-text"></i></div>
+              <h3 class="h5 fw-bold">Documentation-Ready Delivery</h3>
+              <p class="text-muted-custom">
+                Clear rule explanations, parameter guides, and system limitations
+                so clients understand what the automation is designed to do.
+              </p>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="pill">Parameter guide</span>
+                <span class="pill">Rule mapping</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- MARKETS -->
+  <section id="markets" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">Markets & instruments</h2>
+          <p class="section-lead">
+            Your edge is cross-market familiarity — but we frame it responsibly.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-currency-exchange"></i> Forex</span>
+            <span class="pill"><i class="bi bi-gem"></i> Commodities</span>
+            <span class="pill"><i class="bi bi-currency-bitcoin"></i> Crypto</span>
+            <span class="pill"><i class="bi bi-bar-chart-line"></i> Indices</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Execution-focused</div>
+                <div class="label">Automation designed for real spreads and sessions.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Risk-centered</div>
+                <div class="label">Capital protection logic is part of the build, not an afterthought.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Small-but-steady mindset</div>
+                <div class="label">Consistency and survivability prioritized over hype.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">Client-aligned systems</div>
+                <div class="label">Custom rule sets can be engineered with clear scope.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- SELECTED SYSTEMS -->
+  <section id="work" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">Selected systems</h2>
+          <p class="section-lead mb-0">
+            Keep these high-level and honest. Show structure, not secret sauce.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-graph-up"></i> Stability System</span>
+              <h3 class="h5 fw-bold">Conservative ROI Engine</h3>
+              <p class="text-muted-custom">
+                A disciplined ruleset designed for small, steady performance
+                under controlled risk parameters and strict entry filters.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Risk ceilings</span>
+                <span class="pill">Session-aware</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Add a simplified rule flow diagram</li>
+                <li>Include safe performance range notes (optional)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-arrow-repeat"></i> Market Cycle Logic</span>
+              <h3 class="h5 fw-bold">Adaptive Regime EA</h3>
+              <p class="text-muted-custom">
+                Logic that responds to market phases with defined behavior modes
+                to reduce overtrading during unstable conditions.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Trend/range filters</span>
+                <span class="pill">Guardrail-heavy</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Show “mode switching” concept</li>
+                <li>Highlight safety-first triggers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card card-soft hover-lift h-100">
+            <div class="card-body">
+              <span class="pill mb-3"><i class="bi bi-person-gear"></i> Custom Client Build</span>
+              <h3 class="h5 fw-bold">Strategy-to-EA Delivery</h3>
+              <p class="text-muted-custom">
+                A structured conversion of a client’s manual system into
+                testable rules, parameters, and automation-ready logic.
+              </p>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="pill">Clear scope</span>
+                <span class="pill">Parameter guide</span>
+              </div>
+              <ul class="text-muted-custom small mb-0">
+                <li>Use anonymized case narrative</li>
+                <li>Show documentation snapshot</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini proof row -->
+      <div class="row g-3 mt-3">
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X+</div>
+            <div class="label">EAs built/refined</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Market categories supported</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">X</div>
+            <div class="label">Risk frameworks implemented</div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="stat h-100">
+            <div class="number">Low-hype</div>
+            <div class="label">Consistency > claims</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- PROCESS -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title h1 mb-3">How I build EAs</h2>
+          <p class="section-lead">
+            This process makes you look like a serious engineer, not a “quick bot seller.”
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="pill"><i class="bi bi-check2-circle"></i> Clear rule mapping</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Risk-first design</span>
+            <span class="pill"><i class="bi bi-check2-circle"></i> Testable milestones</span>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">1) Define System</div>
+                <div class="label">Entry/exit rules, invalidation, risk boundaries.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">2) Engineer Logic</div>
+                <div class="label">Modular architecture, parameter strategy.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">3) Validate</div>
+                <div class="label">Edge cases, spread/volatility behavior, safety checks.</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="stat">
+                <div class="number">4) Document</div>
+                <div class="label">Usage guide, limitations, deployment notes.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="container"><div class="soft-divider"></div></div>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="row align-items-end mb-4">
+        <div class="col-lg-8">
+          <h2 class="section-title h1 mb-2">FAQ</h2>
+          <p class="section-lead mb-0">
+            This protects your credibility and filters the wrong clients.
+          </p>
+        </div>
+      </div>
+
+      <div class="accordion" id="faqAcc">
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f1">
+              Do you sell “guaranteed profit” bots?
+            </button>
+          </h2>
+          <div id="f1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              No. I build disciplined, rule-based systems with risk controls.
+              Market conditions change, and responsible automation must be designed
+              with realistic expectations.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f2">
+              Can you convert my manual strategy into an EA?
+            </button>
+          </h2>
+          <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              Yes — as long as the strategy can be translated into clear, testable rules.
+              I’ll help structure the logic and define parameter behavior responsibly.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item card-soft mb-2">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-white" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#f3">
+              Which platforms do you support?
+            </button>
+          </h2>
+          <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
+            <div class="accordion-body text-muted-custom">
+              MetaTrader 4 and MetaTrader 5 (MQL4/MQL5), with a preference for
+              clean codebases, strong guardrails, and documented handover.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="card card-soft">
+        <div class="card-body p-4 p-lg-5">
+          <div class="row align-items-center g-3">
+            <div class="col-lg-8">
+              <h3 class="h2 fw-bold mb-2">Have a strategy you want automated?</h3>
+              <p class="text-muted-custom mb-0">
+                I accept custom systems intended to be transformed into disciplined,
+                risk-aware Expert Advisors with clear documentation and maintainable structure.
+              </p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+                <a class="btn btn-primary btn-lg" href="https://wa.me/60123095550" target="_blank" rel="noopener">
+                  <i class="bi bi-whatsapp"></i> WhatsApp me
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="mailto:hello@bernardchoong.com">
+                  <i class="bi bi-envelope"></i> Email
+                </a>
+                <a class="btn btn-outline-light btn-lg" href="/software">
+                  Software Profile
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="siteFooter"></div>
+
+  <script src="../shared/site-chrome.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
