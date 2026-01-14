@@ -79,6 +79,23 @@
     const href = withBase(faviconPath);
     upsert('siteFavicon', 'icon', href, 'image/webp');
     upsert('siteAppleTouchIcon', 'apple-touch-icon', href, 'image/webp');
+
+    upsert('siteManifest', 'manifest', withBase('/manifest.webmanifest'));
+
+    const upsertMeta = (id, name, content) => {
+      let meta = document.getElementById(id);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.id = id;
+        head.appendChild(meta);
+      }
+      meta.setAttribute('name', name);
+      meta.setAttribute('content', content);
+    };
+
+    upsertMeta('siteThemeColor', 'theme-color', '#0b1220');
+    upsertMeta('siteAppleCapable', 'apple-mobile-web-app-capable', 'yes');
+    upsertMeta('siteAppleStatus', 'apple-mobile-web-app-status-bar-style', 'black-translucent');
   }
 
   function getBrandIconSrc(theme) {
@@ -93,11 +110,18 @@
     img.setAttribute('src', nextSrc);
   }
 
+  function updateThemeColor(theme) {
+    const meta = document.getElementById('siteThemeColor');
+    if (!meta) return;
+    meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#0b1220');
+  }
+
   function applyTheme(theme) {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
     root.setAttribute('data-bs-theme', theme === 'dark' ? 'dark' : 'light');
     updateBrandIcon(theme);
+    updateThemeColor(theme);
     const icon = document.getElementById('themeIcon');
     if (icon) {
       icon.classList.remove('bi-moon-stars', 'bi-sun');
@@ -1185,6 +1209,15 @@
     document.body.appendChild(anchor);
   }
 
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    if (!(window.isSecureContext || window.location.hostname === 'localhost')) return;
+
+    navigator.serviceWorker.register(withBase('/sw.js')).catch(() => {
+      // ignore
+    });
+  }
+
   function init() {
     injectChromeStyles();
     ensureFavicons();
@@ -1200,6 +1233,7 @@
     initTypewriters();
     initCarousels();
     initCountUps();
+    registerServiceWorker();
   }
 
   if (document.readyState === 'loading') {
