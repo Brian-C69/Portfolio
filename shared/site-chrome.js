@@ -3,6 +3,9 @@
   const whatsappPrefillText = encodeURIComponent(
     'Hi Bernard — I found you via your portfolio. I need help with a website/platform:'
   );
+  const faviconPath = '/assets/img/bernard_favicon.webp';
+  const brandIconDarkPath = '/assets/img/bernard_favicon_dark.webp';
+  const brandIconLightPath = '/assets/img/bernard_favicon_light.webp';
   const backgroundAudioSources = [
     { src: '/assets/audio/background-music.m4a', type: 'audio/mp4' },
     { src: '/assets/audio/background-music.mp3', type: 'audio/mpeg' },
@@ -57,14 +60,49 @@
     });
   }
 
+  function ensureFavicons() {
+    const head = document.head;
+    if (!head) return;
+
+    const upsert = (id, rel, href, type) => {
+      let link = document.getElementById(id);
+      if (!link) {
+        link = document.createElement('link');
+        link.id = id;
+        head.appendChild(link);
+      }
+      link.rel = rel;
+      link.href = href;
+      if (type) link.type = type;
+    };
+
+    const href = withBase(faviconPath);
+    upsert('siteFavicon', 'icon', href, 'image/webp');
+    upsert('siteAppleTouchIcon', 'apple-touch-icon', href, 'image/webp');
+  }
+
+  function getBrandIconSrc(theme) {
+    return withBase(theme === 'light' ? brandIconLightPath : brandIconDarkPath);
+  }
+
+  function updateBrandIcon(theme) {
+    const img = document.getElementById('siteBrandIcon');
+    if (!img) return;
+    const nextSrc = getBrandIconSrc(theme);
+    if (img.getAttribute('src') === nextSrc) return;
+    img.setAttribute('src', nextSrc);
+  }
+
   function applyTheme(theme) {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
     root.setAttribute('data-bs-theme', theme === 'dark' ? 'dark' : 'light');
+    updateBrandIcon(theme);
     const icon = document.getElementById('themeIcon');
-    if (!icon) return;
-    icon.classList.remove('bi-moon-stars', 'bi-sun');
-    icon.classList.add(theme === 'dark' ? 'bi-moon-stars' : 'bi-sun');
+    if (icon) {
+      icon.classList.remove('bi-moon-stars', 'bi-sun');
+      icon.classList.add(theme === 'dark' ? 'bi-moon-stars' : 'bi-sun');
+    }
   }
 
   function initThemeToggle() {
@@ -106,13 +144,15 @@
     const isActive = (page) => (activePage === page ? ' active' : '');
     const currentAttr = (page) => (activePage === page ? ' aria-current="page"' : '');
     const whatsappHref = getWhatsAppHref();
+    const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const brandIconSrc = getBrandIconSrc(theme);
 
     if (activePage === 'home') {
       return `
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-chrome-nav">
           <div class="container">
             <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
-              <i class="bi bi-grid-1x2-fill"></i> Bernard Choong
+              <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
               <span class="navbar-toggler-icon"></span>
@@ -149,7 +189,7 @@
       <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-chrome-nav">
         <div class="container">
           <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
-            <i class="bi bi-grid-1x2-fill"></i> Bernard Choong
+            <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
             <span class="navbar-toggler-icon"></span>
@@ -887,6 +927,12 @@
       }
       .site-chrome-nav .navbar-brand{ color: var(--text-100); text-decoration: none; }
       .site-chrome-nav .navbar-brand:hover{ color: var(--text-100); opacity: .92; }
+      .brand-icon{
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        display: inline-block;
+      }
       .site-chrome-nav .nav-link.active{ color: var(--text-100); }
       #musicToggle.btn, #themeToggle.btn{
         border-radius: 999px;
@@ -1141,6 +1187,7 @@
 
   function init() {
     injectChromeStyles();
+    ensureFavicons();
     renderSiteChrome();
     normalizeRootAnchors();
     normalizeWhatsAppLinks();
