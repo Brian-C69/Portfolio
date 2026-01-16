@@ -362,10 +362,8 @@
   function updateLanguageUI() {
     const short =
       translations[currentLanguage]?.lang?.short?.[currentLanguage] || currentLanguage.toUpperCase();
-    const labelDesktop = document.getElementById('langLabelDesktop');
-    if (labelDesktop) labelDesktop.textContent = short;
-    const labelMobile = document.getElementById('langLabelMobile');
-    if (labelMobile) labelMobile.textContent = short;
+    const label = document.getElementById('langLabel');
+    if (label) label.textContent = short;
 
     const items = Array.from(document.querySelectorAll('[data-lang]'));
     for (const item of items) {
@@ -561,6 +559,29 @@
     const whatsappHref = getWhatsAppHref();
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
     const brandIconSrc = getBrandIconSrc(theme);
+    const actionsMarkup = `
+      <div class="nav-actions d-flex align-items-center gap-2 ms-auto order-lg-2 pe-2">
+        <div class="dropdown">
+          <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-globe"></i> <span id="langLabel">EN</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggle">
+            <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
+            <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
+            <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
+          </ul>
+        </div>
+        <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
+          <i id="musicIcon" class="bi bi-music-note"></i>
+        </button>
+        <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
+          <i id="themeIcon" class="bi bi-moon-stars"></i>
+        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    `;
 
     if (activePage === 'home') {
       return `
@@ -569,22 +590,8 @@
             <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
               <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
             </a>
-            <div class="d-flex align-items-center gap-2 ms-auto d-lg-none pe-2">
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggleMobile" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-globe"></i> <span id="langLabelMobile">EN</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggleMobile">
-                  <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
-                  <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
-                  <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
-                </ul>
-              </div>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="nav">
+            ${actionsMarkup}
+            <div class="collapse navbar-collapse order-lg-1" id="nav">
               <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                 <li class="nav-item"><a class="nav-link" href="#services"><span data-i18n="nav.about">About</span></a></li>
                 <li class="nav-item"><a class="nav-link" href="#approach"><span data-i18n="nav.approach">Approach</span></a></li>
@@ -594,26 +601,6 @@
                   <a class="btn btn-sm btn-outline-light" href="${whatsappHref}" target="_blank" rel="noopener" aria-label="Message Bernard on WhatsApp">
                     <i class="bi bi-whatsapp"></i> <span data-i18n="nav.whatsapp">WhatsApp</span>
                   </a>
-                </li>
-                <li class="nav-item dropdown ms-lg-2 d-none d-lg-block">
-                  <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggleDesktop" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-globe"></i> <span id="langLabelDesktop">EN</span>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggleDesktop">
-                    <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
-                    <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
-                    <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
-                  </ul>
-                </li>
-                <li class="nav-item ms-lg-2">
-                  <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
-                    <i id="musicIcon" class="bi bi-music-note"></i>
-                  </button>
-                </li>
-                <li class="nav-item ms-lg-2">
-                  <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
-                    <i id="themeIcon" class="bi bi-moon-stars"></i>
-                  </button>
                 </li>
               </ul>
             </div>
@@ -628,22 +615,8 @@
           <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
             <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
           </a>
-          <div class="d-flex align-items-center gap-2 ms-auto d-lg-none pe-2">
-            <div class="dropdown">
-              <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggleMobile" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-globe"></i> <span id="langLabelMobile">EN</span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggleMobile">
-                <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
-                <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
-                <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
-              </ul>
-            </div>
-          </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="nav">
+          ${actionsMarkup}
+          <div class="collapse navbar-collapse order-lg-1" id="nav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
               <li class="nav-item"><a class="nav-link${isActive('services')}"${currentAttr('services')} href="${withBase('/services')}"><span data-i18n="footer.services">Services</span></a></li>
               <li class="nav-item"><a class="nav-link${isActive('about')}"${currentAttr('about')} href="${withBase('/about')}"><span data-i18n="nav.about">About</span></a></li>
@@ -652,26 +625,6 @@
                 <a class="btn btn-sm btn-outline-light" href="${whatsappHref}" target="_blank" rel="noopener" aria-label="Message Bernard on WhatsApp">
                   <i class="bi bi-whatsapp"></i> <span data-i18n="nav.whatsapp">WhatsApp</span>
                 </a>
-              </li>
-              <li class="nav-item dropdown ms-lg-2 d-none d-lg-block">
-                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggleDesktop" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="bi bi-globe"></i> <span id="langLabelDesktop">EN</span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggleDesktop">
-                  <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
-                  <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
-                  <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
-                </ul>
-              </li>
-              <li class="nav-item ms-lg-2">
-                <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
-                  <i id="musicIcon" class="bi bi-music-note"></i>
-                </button>
-              </li>
-              <li class="nav-item ms-lg-2">
-                <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
-                  <i id="themeIcon" class="bi bi-moon-stars"></i>
-                </button>
               </li>
             </ul>
           </div>
