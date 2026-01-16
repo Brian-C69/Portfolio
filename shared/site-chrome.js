@@ -569,7 +569,7 @@
             <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
               <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
             </a>
-            <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
+            <div class="d-flex align-items-center gap-2 ms-auto d-lg-none pe-2">
               <div class="dropdown">
                 <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggleMobile" data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="bi bi-globe"></i> <span id="langLabelMobile">EN</span>
@@ -628,7 +628,7 @@
           <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
             <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
           </a>
-          <div class="d-flex align-items-center gap-2 ms-auto d-lg-none">
+          <div class="d-flex align-items-center gap-2 ms-auto d-lg-none pe-2">
             <div class="dropdown">
               <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggleMobile" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-globe"></i> <span id="langLabelMobile">EN</span>
