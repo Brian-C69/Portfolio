@@ -560,7 +560,7 @@
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
     const brandIconSrc = getBrandIconSrc(theme);
     const actionsMarkup = `
-      <div class="nav-actions d-flex align-items-center gap-2 ms-auto order-lg-2 pe-2">
+      <div class="nav-actions d-flex align-items-center gap-2 ms-auto order-lg-2 pe-2 ps-lg-3">
         <div class="dropdown">
           <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggle" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-globe"></i> <span id="langLabel">EN</span>
