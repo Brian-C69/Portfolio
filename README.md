@@ -35,3 +35,15 @@ Serve the folder as a static site root and open the served URL.
 ## PWA notes
 - Install prompt / “Add to Home Screen” works when served over HTTPS (or `http://localhost` during development).
 - If you update assets and want clients to refresh the offline cache, bump the `CACHE_VERSION` in `sw.js`.
+
+## Pricing (Design-Only)
+This section is a **design-only** cost breakdown (UI/UX + visual system + interaction states). It excludes implementation/dev work unless stated.
+
+### Total: **RM 2,900**
+**How it adds up**
+- **Base design (RM 1,800)**: 1 theme (dark or light) + EN only, covering desktop+mobile layout and component styling for:
+  - Shared nav/footer + key sections (hero, about, projects, approach, trust, FAQ, contact)
+  - Typewriter hero roles, projects carousel (dots/arrows/autoplay), count-up stats
+  - Music toggle button + floating WhatsApp button (UI states only)
+- **Add-on: Light/Dark mode variant (+RM 600)**: full second-theme pass across all components (colors, surfaces, borders, icons, contrast checks).
+- **Add-on: Multi-language UI pass (+RM 500)**: EN/BM/中文 UI readiness (spacing tolerance, button widths, nav/dropdown layouts, long-string handling). Translation writing is not included.
