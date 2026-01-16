@@ -1,8 +1,5 @@
 (() => {
   const whatsappNumberE164NoPlus = '60123095550';
-  const whatsappPrefillText = encodeURIComponent(
-    'Hi Bernard — I found you via your portfolio. I need help with a website/platform:'
-  );
   const faviconPath = '/assets/img/bernard_favicon.webp';
   const brandIconDarkPath = '/assets/img/bernard_favicon_dark.webp';
   const brandIconLightPath = '/assets/img/bernard_favicon_light.webp';
@@ -14,9 +11,402 @@
   const musicPreferenceKey = 'music';
   const musicTimeKey = 'musicTime';
   const defaultMusicVolume = 0.1;
+  const languagePreferenceKey = 'lang';
+  const supportedLanguages = ['en', 'ms', 'zh'];
+  let currentLanguage = 'en';
+
+  const translations = {
+    en: {
+      nav: { about: 'About', approach: 'Approach', trust: 'Trust', contact: 'Contact', whatsapp: 'WhatsApp' },
+      footer: { home: 'Home', projects: 'Projects', services: 'Services', about: 'About', contact: 'Contact', whatsapp: 'WhatsApp' },
+      lang: { en: 'English', ms: 'Malay', zh: 'Chinese', short: { en: 'EN', ms: 'BM', zh: '中文' } },
+      whatsappPrefill:
+        'Hi Bernard — I found you via your portfolio. I need help with a website/platform:',
+      home: {
+        hero: { location: 'Based in Kuala Lumpur, Malaysia.', projects: 'My Projects', contact: 'Get in Touch' },
+        about: {
+          title: 'About me',
+          lead:
+            'Most projects don’t struggle because the team can’t build — they struggle in the gaps: integration, deployment, handover, and stability.',
+          line2: 'That’s where I work best.',
+          body:
+            'Over the years, I’ve shipped across websites, backend modules, integrations, and the decisions that keep systems reliable after launch. The range isn’t random — it’s one connected workflow.',
+          close:
+            'If you need one owner who can understand the workflow, build what matters, and ship with a clean handover, I can help.',
+          serviceMenu: 'Service menu',
+        },
+        projects: {
+          title: 'Projects',
+          lead: 'Selected builds and systems across software, infrastructure, and web.',
+          visit: 'Visit site →',
+          categories: { ecommerce: 'eCommerce', company: 'Company Website', wellness: 'Wellness' },
+        },
+        approach: {
+          titleTop: 'My Approach',
+          titleBottom: 'integration over hype',
+          lead:
+            'I’m not a “list-of-skills” freelancer. I’m a systems operator who builds solutions that survive real-world constraints: budget, people, maintenance, and business growth.',
+          pills: { business: 'Business-first design', delivery: 'Documented delivery', maintainable: 'Maintainable structure' },
+          steps: {
+            assess: { title: 'Assess', desc: 'Understand workflow, risks, and real constraints.' },
+            build: { title: 'Build', desc: 'Ship clean modules with clear roles and boundaries.' },
+            integrate: { title: 'Integrate', desc: 'Connect software + infra + digital execution logically.' },
+            optimize: { title: 'Optimize', desc: 'Performance, stability, and long-term sustainability.' },
+          },
+        },
+        trust: {
+          title: 'Trust',
+          lead: 'Trust signals that reduce doubt fast.',
+          stats: {
+            years: 'Years building & shipping',
+            industries: 'Industries served',
+            shipped: 'Projects shipped',
+            websites: 'Websites & landing pages',
+          },
+        },
+        faq: {
+          title: 'FAQ',
+          lead: 'Quick answers about how I work and what I deliver.',
+          q1: 'What do you actually build?',
+          a1:
+            'Websites and platforms, backend modules, integrations, and automation—work that connects the pieces so the whole system runs reliably after launch.',
+          q2: 'Do you handle deployment and handover?',
+          a2: 'Yes—deployment, DNS/SSL, environments, and a clean handover with notes or documentation so your team isn’t stuck later.',
+          q3: 'Can you work with my current site/platform?',
+          a3: 'Yes. I can improve what you already have, integrate new tools, or rebuild only what’s necessary—based on the constraints and the fastest path to stable results.',
+          q4: 'What’s your process like?',
+          a4: 'Align on the workflow → define scope and deliverables → ship in clear milestones → integrate and stabilize → handover and optional maintenance.',
+          q5: 'Do you offer ongoing support?',
+          a5: 'Yes—small retainers for updates, fixes, and improvements. If you prefer, I can also do “on-demand” support for specific tasks.',
+          q6: 'How do we start?',
+          a6: 'Message me on WhatsApp with your goal, timeline, and any links. I’ll ask a few questions, then propose the fastest clean path forward.',
+        },
+        contact: {
+          title: 'Let’s build something that actually lasts.',
+          lead: 'If you’re unsure which specialty fits your needs, start here — I’ll route you to the right solution lane.',
+          whatsappMe: 'WhatsApp Me',
+          email: 'Email',
+          serviceMenu: 'View Service Menu',
+          quickLinks: 'Quick Links',
+          links: {
+            software: 'Software Development Profile',
+            networking: 'Networking Profile',
+            cctv: 'CCTV Profile',
+            algo: 'Algorithmic Trading Profile',
+            hardware: 'Hardware/Servers Profile',
+            marketing: 'Digital Growth Profile',
+            copywriting: 'Company Profiles & Copywriting',
+          },
+        },
+      },
+      notFound: {
+        title: '404 — Page not found',
+        lead:
+          'The page you’re looking for doesn’t exist (or was moved). Head back home, or message me and I’ll point you in the right direction.',
+        home: 'Back to Home',
+        whatsappMe: 'WhatsApp Me',
+        try: 'Or try:',
+      },
+    },
+    ms: {
+      nav: { about: 'Tentang', approach: 'Pendekatan', trust: 'Kepercayaan', contact: 'Hubungi', whatsapp: 'WhatsApp' },
+      footer: { home: 'Laman Utama', projects: 'Projek', services: 'Perkhidmatan', about: 'Tentang', contact: 'Hubungi', whatsapp: 'WhatsApp' },
+      lang: { en: 'Inggeris', ms: 'Melayu', zh: 'Cina', short: { en: 'EN', ms: 'BM', zh: '中文' } },
+      whatsappPrefill:
+        'Hi Bernard — saya jumpa anda melalui portfolio. Saya perlukan bantuan untuk laman web/platform:',
+      home: {
+        hero: { location: 'Berpangkalan di Kuala Lumpur, Malaysia.', projects: 'Projek Saya', contact: 'Hubungi Saya' },
+        about: {
+          title: 'Tentang saya',
+          lead:
+            'Kebanyakan projek tidak gagal kerana pasukan tidak boleh membina — ia gagal pada jurang: integrasi, deployment, serahan, dan kestabilan.',
+          line2: 'Di situlah saya paling kuat.',
+          body:
+            'Selama bertahun-tahun, saya telah menghantar kerja merangkumi laman web, modul backend, integrasi, dan keputusan yang memastikan sistem stabil selepas dilancarkan. Skop ini bukan rawak — ia satu aliran kerja yang saling berkait.',
+          close:
+            'Jika anda perlukan seorang pemilik yang boleh faham aliran kerja, bina yang penting, dan serah dengan kemas, saya boleh bantu.',
+          serviceMenu: 'Menu perkhidmatan',
+        },
+        projects: {
+          title: 'Projek',
+          lead: 'Binaan terpilih merentas perisian, infrastruktur, dan web.',
+          visit: 'Lihat laman →',
+          categories: { ecommerce: 'eDagang', company: 'Laman Syarikat', wellness: 'Kesejahteraan' },
+        },
+        approach: {
+          titleTop: 'Pendekatan Saya',
+          titleBottom: 'integrasi melebihi hype',
+          lead:
+            'Saya bukan freelancer “senarai kemahiran”. Saya operator sistem yang membina penyelesaian yang tahan kekangan dunia sebenar: bajet, orang, penyelenggaraan, dan pertumbuhan bisnes.',
+          pills: { business: 'Reka bentuk berfokus bisnes', delivery: 'Serahan berdokumen', maintainable: 'Struktur mudah selenggara' },
+          steps: {
+            assess: { title: 'Nilai', desc: 'Faham aliran kerja, risiko, dan kekangan sebenar.' },
+            build: { title: 'Bina', desc: 'Hantar modul kemas dengan peranan dan sempadan jelas.' },
+            integrate: { title: 'Integrasi', desc: 'Sambungkan perisian + infra + pelaksanaan digital dengan logik.' },
+            optimize: { title: 'Optimum', desc: 'Prestasi, kestabilan, dan kelestarian jangka panjang.' },
+          },
+        },
+        trust: {
+          title: 'Kepercayaan',
+          lead: 'Isyarat yang cepat mengurangkan keraguan.',
+          stats: { years: 'Tahun membina & menghantar', industries: 'Industri', shipped: 'Projek dihantar', websites: 'Laman web & landing page' },
+        },
+        faq: {
+          title: 'Soalan Lazim',
+          lead: 'Jawapan ringkas tentang cara saya bekerja dan apa yang saya hasilkan.',
+          q1: 'Apa sebenarnya yang anda bina?',
+          a1:
+            'Laman web dan platform, modul backend, integrasi, dan automasi—kerja yang menghubungkan semuanya supaya sistem berjalan stabil selepas pelancaran.',
+          q2: 'Adakah anda urus deployment dan serahan?',
+          a2: 'Ya—deployment, DNS/SSL, persekitaran, dan serahan kemas dengan nota atau dokumentasi supaya pasukan anda tidak tersekat.',
+          q3: 'Boleh kerja dengan laman/platform sedia ada?',
+          a3: 'Ya. Saya boleh baiki yang ada, integrasi alat baharu, atau bina semula hanya yang perlu—berdasarkan kekangan dan laluan paling cepat ke hasil stabil.',
+          q4: 'Macam mana proses anda?',
+          a4: 'Selaraskan aliran kerja → tetapkan skop & deliverable → hantar ikut milestone → integrasi & stabilkan → serahan & sokongan opsyen.',
+          q5: 'Ada sokongan berterusan?',
+          a5: 'Ya—retainer kecil untuk kemas kini, pembaikan, dan penambahbaikan. Jika anda mahu, saya juga boleh buat sokongan “on-demand”.',
+          q6: 'Macam mana nak mula?',
+          a6: 'WhatsApp saya dengan matlamat, timeline, dan pautan. Saya akan tanya beberapa soalan, kemudian cadangkan laluan paling kemas dan pantas.',
+        },
+        contact: {
+          title: 'Jom bina sesuatu yang benar-benar tahan lama.',
+          lead: 'Jika anda belum pasti specialty yang sesuai, mula di sini — saya akan bawa anda ke laluan yang betul.',
+          whatsappMe: 'WhatsApp Saya',
+          email: 'Emel',
+          serviceMenu: 'Lihat Menu Perkhidmatan',
+          quickLinks: 'Pautan Pantas',
+          links: {
+            software: 'Profil Pembangunan Perisian',
+            networking: 'Profil Rangkaian',
+            cctv: 'Profil CCTV',
+            algo: 'Profil Dagangan Algoritma',
+            hardware: 'Profil Perkakasan/Pelayan',
+            marketing: 'Profil Pertumbuhan Digital',
+            copywriting: 'Profil Syarikat & Copywriting',
+          },
+        },
+      },
+      notFound: {
+        title: '404 — Halaman tidak ditemui',
+        lead:
+          'Halaman yang anda cari tidak wujud (atau telah dipindahkan). Kembali ke laman utama, atau WhatsApp saya dan saya akan bantu.',
+        home: 'Kembali ke Laman Utama',
+        whatsappMe: 'WhatsApp Saya',
+        try: 'Atau cuba:',
+      },
+    },
+    zh: {
+      nav: { about: '关于', approach: '方法', trust: '可信度', contact: '联系', whatsapp: 'WhatsApp' },
+      footer: { home: '首页', projects: '项目', services: '服务', about: '关于', contact: '联系', whatsapp: 'WhatsApp' },
+      lang: { en: '英语', ms: '马来语', zh: '中文', short: { en: 'EN', ms: 'BM', zh: '中文' } },
+      whatsappPrefill: '你好 Bernard — 我通过你的作品集找到你。我需要网站/平台方面的帮助：',
+      home: {
+        hero: { location: '常驻马来西亚吉隆坡。', projects: '我的项目', contact: '联系我' },
+        about: {
+          title: '关于我',
+          lead: '多数项目出问题，并不是团队不会做——而是卡在“缝隙”：集成、部署、交接与稳定性。',
+          line2: '这正是我最擅长的部分。',
+          body:
+            '这些年来，我交付过网站、后端模块、各类集成，以及让系统上线后依然可靠的关键决策。我的能力范围并不杂乱——它是一条连贯的工作流。',
+          close: '如果你需要一个负责人能理解流程、做最关键的部分，并且干净交接，我可以帮你。',
+          serviceMenu: '服务菜单',
+        },
+        projects: { title: '项目', lead: '覆盖软件、基础设施与网站的精选交付。', visit: '访问网站 →', categories: { ecommerce: '电商', company: '公司官网', wellness: '健康' } },
+        approach: {
+          titleTop: '我的方法',
+          titleBottom: '集成胜过噱头',
+          lead:
+            '我不是“技能清单式”的自由职业者。我更像系统操盘手：在预算、人员、维护与业务增长等现实约束下，把方案做成、跑稳、交接干净。',
+          pills: { business: '以业务为先', delivery: '交付可追溯', maintainable: '结构可维护' },
+          steps: {
+            assess: { title: '评估', desc: '理解流程、风险与真实约束。' },
+            build: { title: '构建', desc: '以清晰边界交付模块化成果。' },
+            integrate: { title: '集成', desc: '把软件、基础设施与执行链路串起来。' },
+            optimize: { title: '优化', desc: '性能、稳定性与长期可持续。' },
+          },
+        },
+        trust: {
+          title: '可信度',
+          lead: '快速降低疑虑的信号。',
+          stats: { years: '年交付经验', industries: '服务行业', shipped: '已交付项目', websites: '网站与落地页' },
+        },
+        faq: {
+          title: '常见问题',
+          lead: '关于合作方式与交付内容的快速回答。',
+          q1: '你具体交付什么？',
+          a1: '网站与平台、后端模块、系统集成与自动化——把关键环节连起来，让系统上线后依然稳定运行。',
+          q2: '你会负责部署和交接吗？',
+          a2: '会——包括部署、DNS/SSL、环境配置，以及清晰交接（备注/文档），避免团队后期卡住。',
+          q3: '可以在我现有的网站/系统上继续做吗？',
+          a3: '可以。我可以优化现有系统、集成新工具，或只重做必要部分——以最稳妥且最快的路径达成结果。',
+          q4: '你的流程是什么？',
+          a4: '对齐流程 → 明确范围与交付物 → 分阶段交付 → 集成与稳定 → 交接与可选维护。',
+          q5: '提供长期支持吗？',
+          a5: '提供——小额维护/优化包，或按需支持特定任务。',
+          q6: '如何开始？',
+          a6: 'WhatsApp 我你的目标、时间线和链接。我会问几个关键问题，然后给出最干净可行的推进方案。',
+        },
+        contact: {
+          title: '一起做一个真正“上线后还能跑稳”的系统。',
+          lead: '如果你不确定需要哪条服务路线，从这里开始——我会把你带到正确的解决方案。',
+          whatsappMe: 'WhatsApp 联系',
+          email: '邮箱',
+          serviceMenu: '查看服务菜单',
+          quickLinks: '快速入口',
+          links: {
+            software: '软件开发简介',
+            networking: '网络方案简介',
+            cctv: 'CCTV 简介',
+            algo: '量化/算法交易简介',
+            hardware: '硬件/服务器简介',
+            marketing: '增长与营销简介',
+            copywriting: '公司简介与文案',
+          },
+        },
+      },
+      notFound: {
+        title: '404 — 页面不存在',
+        lead: '你访问的页面不存在（或已移动）。返回首页，或 WhatsApp 我，我会指引你到正确位置。',
+        home: '返回首页',
+        whatsappMe: 'WhatsApp 联系',
+        try: '或者试试：',
+      },
+    },
+  };
 
   function getWhatsAppHref() {
-    return `https://wa.me/${whatsappNumberE164NoPlus}?text=${whatsappPrefillText}`;
+    const dict = translations[currentLanguage] || translations.en;
+    const prefill = encodeURIComponent(dict.whatsappPrefill || translations.en.whatsappPrefill);
+    return `https://wa.me/${whatsappNumberE164NoPlus}?text=${prefill}`;
+  }
+
+  function normalizeLanguage(value) {
+    const raw = String(value || '').toLowerCase();
+    if (raw.startsWith('ms')) return 'ms';
+    if (raw.startsWith('zh')) return 'zh';
+    if (raw.startsWith('en')) return 'en';
+    if (supportedLanguages.includes(raw)) return raw;
+    return 'en';
+  }
+
+  function detectLanguageFromNavigator() {
+    try {
+      const preferred = navigator.languages?.[0] || navigator.language || 'en';
+      return normalizeLanguage(preferred);
+    } catch {
+      return 'en';
+    }
+  }
+
+  function getLanguagePreference() {
+    try {
+      return localStorage.getItem(languagePreferenceKey);
+    } catch {
+      return null;
+    }
+  }
+
+  function setLanguagePreference(lang) {
+    try {
+      localStorage.setItem(languagePreferenceKey, lang);
+    } catch {
+      // ignore
+    }
+  }
+
+  function getTranslation(key) {
+    const dict = translations[currentLanguage] || translations.en;
+    const parts = String(key || '').split('.');
+    let node = dict;
+    for (const part of parts) {
+      if (!node || typeof node !== 'object') return null;
+      node = node[part];
+    }
+    return typeof node === 'string' ? node : null;
+  }
+
+  function applyTranslations() {
+    const elements = Array.from(document.querySelectorAll('[data-i18n]'));
+    for (const element of elements) {
+      const key = element.getAttribute('data-i18n');
+      if (!key) continue;
+      const value = getTranslation(key);
+      if (typeof value !== 'string') continue;
+      element.textContent = value;
+    }
+
+    const htmlElements = Array.from(document.querySelectorAll('[data-i18n-html]'));
+    for (const element of htmlElements) {
+      const key = element.getAttribute('data-i18n-html');
+      if (!key) continue;
+      const value = getTranslation(key);
+      if (typeof value !== 'string') continue;
+      element.innerHTML = value;
+    }
+  }
+
+  function updateWhatsAppLinks() {
+    const prefix = `https://wa.me/${whatsappNumberE164NoPlus}`;
+    const next = getWhatsAppHref();
+    document.querySelectorAll(`a[href^="${prefix}"]`).forEach((anchor) => {
+      anchor.setAttribute('href', next);
+    });
+  }
+
+  function updateWhatsAppFloatingButton() {
+    const anchor = document.getElementById('waFloat');
+    if (!anchor) return;
+    anchor.href = getWhatsAppHref();
+  }
+
+  function updateLanguageUI() {
+    const label = document.getElementById('langLabel');
+    if (label) {
+      const short = translations[currentLanguage]?.lang?.short?.[currentLanguage] || currentLanguage.toUpperCase();
+      label.textContent = short;
+    }
+
+    const items = Array.from(document.querySelectorAll('[data-lang]'));
+    for (const item of items) {
+      const lang = normalizeLanguage(item.getAttribute('data-lang'));
+      item.classList.toggle('active', lang === currentLanguage);
+      item.setAttribute('aria-current', lang === currentLanguage ? 'true' : 'false');
+    }
+  }
+
+  function setLanguage(lang, { persist } = { persist: true }) {
+    const next = normalizeLanguage(lang);
+    currentLanguage = next;
+    document.documentElement.lang = next === 'zh' ? 'zh-Hans' : next === 'ms' ? 'ms' : 'en';
+    if (persist) setLanguagePreference(next);
+
+    updateLanguageUI();
+    applyTranslations();
+    updateWhatsAppLinks();
+    normalizeWhatsAppLinks();
+    updateWhatsAppFloatingButton();
+  }
+
+  function initLanguageState() {
+    const stored = getLanguagePreference();
+    const initial = normalizeLanguage(stored || detectLanguageFromNavigator());
+    currentLanguage = initial;
+    document.documentElement.lang = initial === 'zh' ? 'zh-Hans' : initial === 'ms' ? 'ms' : 'en';
+  }
+
+  function initLanguageSwitcher() {
+    updateLanguageUI();
+    applyTranslations();
+    updateWhatsAppLinks();
+    normalizeWhatsAppLinks();
+    updateWhatsAppFloatingButton();
+
+    document.addEventListener('click', (event) => {
+      const target = event.target?.closest?.('[data-lang]');
+      if (!target) return;
+      event.preventDefault();
+      setLanguage(target.getAttribute('data-lang'), { persist: true });
+    });
   }
 
   function getBasePrefix() {
@@ -183,14 +573,24 @@
             </button>
             <div class="collapse navbar-collapse" id="nav">
               <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                <li class="nav-item"><a class="nav-link" href="#services">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#approach">Approach</a></li>
-                <li class="nav-item"><a class="nav-link" href="#proof">Trust</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="#services"><span data-i18n="nav.about">About</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="#approach"><span data-i18n="nav.approach">Approach</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="#proof"><span data-i18n="nav.trust">Trust</span></a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact"><span data-i18n="nav.contact">Contact</span></a></li>
                 <li class="nav-item ms-lg-2">
                   <a class="btn btn-sm btn-outline-light" href="${whatsappHref}" target="_blank" rel="noopener" aria-label="Message Bernard on WhatsApp">
-                    <i class="bi bi-whatsapp"></i> WhatsApp
+                    <i class="bi bi-whatsapp"></i> <span data-i18n="nav.whatsapp">WhatsApp</span>
                   </a>
+                </li>
+                <li class="nav-item dropdown ms-lg-2">
+                  <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-globe"></i> <span id="langLabel">EN</span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggle">
+                    <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
+                    <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
+                    <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
+                  </ul>
                 </li>
                 <li class="nav-item ms-lg-2">
                   <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
@@ -220,13 +620,23 @@
           </button>
           <div class="collapse navbar-collapse" id="nav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-              <li class="nav-item"><a class="nav-link${isActive('services')}"${currentAttr('services')} href="${withBase('/services')}">Services</a></li>
-              <li class="nav-item"><a class="nav-link${isActive('about')}"${currentAttr('about')} href="${withBase('/about')}">About</a></li>
-              <li class="nav-item"><a class="nav-link${isActive('contact')}"${currentAttr('contact')} href="${withBase('/contact')}">Contact</a></li>
+              <li class="nav-item"><a class="nav-link${isActive('services')}"${currentAttr('services')} href="${withBase('/services')}"><span data-i18n="footer.services">Services</span></a></li>
+              <li class="nav-item"><a class="nav-link${isActive('about')}"${currentAttr('about')} href="${withBase('/about')}"><span data-i18n="nav.about">About</span></a></li>
+              <li class="nav-item"><a class="nav-link${isActive('contact')}"${currentAttr('contact')} href="${withBase('/contact')}"><span data-i18n="nav.contact">Contact</span></a></li>
               <li class="nav-item ms-lg-2">
                 <a class="btn btn-sm btn-outline-light" href="${whatsappHref}" target="_blank" rel="noopener" aria-label="Message Bernard on WhatsApp">
-                  <i class="bi bi-whatsapp"></i> WhatsApp
+                  <i class="bi bi-whatsapp"></i> <span data-i18n="nav.whatsapp">WhatsApp</span>
                 </a>
+              </li>
+              <li class="nav-item dropdown ms-lg-2">
+                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="langToggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-globe"></i> <span id="langLabel">EN</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langToggle">
+                  <li><button class="dropdown-item" type="button" data-lang="en"><span data-i18n="lang.en">English</span></button></li>
+                  <li><button class="dropdown-item" type="button" data-lang="ms"><span data-i18n="lang.ms">Malay</span></button></li>
+                  <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
+                </ul>
               </li>
               <li class="nav-item ms-lg-2">
                 <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
@@ -251,15 +661,15 @@
     return `
       <footer class="py-4">
         <div class="container">
-          <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
-            <div class="text-muted-custom small">© <span id="year"></span> Bernard Choong.</div>
-            <div class="d-flex gap-3 flex-wrap">
-              <a class="link-soft small" href="${withBase('/')}">Home</a>
-              <a class="link-soft small" href="${withBase('/#featured')}">Projects</a>
-              <a class="link-soft small" href="${withBase('/services')}">Services</a>
-              <a class="link-soft small" href="${withBase('/about')}">About</a>
-              <a class="link-soft small" href="${withBase('/contact')}">Contact</a>
-              <a class="link-soft small" href="${whatsappHref}" target="_blank" rel="noopener">WhatsApp</a>
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
+            <div class="text-muted-custom small text-center text-md-start">© <span id="year"></span> Bernard Choong.</div>
+            <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-md-end text-center">
+              <a class="link-soft small" href="${withBase('/')}"><span data-i18n="footer.home">Home</span></a>
+              <a class="link-soft small" href="${withBase('/#featured')}"><span data-i18n="footer.projects">Projects</span></a>
+              <a class="link-soft small" href="${withBase('/services')}"><span data-i18n="footer.services">Services</span></a>
+              <a class="link-soft small" href="${withBase('/about')}"><span data-i18n="footer.about">About</span></a>
+              <a class="link-soft small" href="${withBase('/contact')}"><span data-i18n="footer.contact">Contact</span></a>
+              <a class="link-soft small" href="${whatsappHref}" target="_blank" rel="noopener"><span data-i18n="footer.whatsapp">WhatsApp</span></a>
             </div>
           </div>
         </div>
@@ -988,10 +1398,44 @@
           justify-content: center;
           padding: .7rem 1rem;
         }
+        .site-chrome-nav .dropdown-menu{
+          width: 100%;
+        }
         .site-chrome-nav #musicToggle.btn,
         .site-chrome-nav #themeToggle.btn{
           border-radius: .9rem;
         }
+      }
+      .site-chrome-nav .dropdown-menu{
+        border: 1px solid var(--border-soft);
+        backdrop-filter: blur(12px);
+        background: rgba(2, 6, 23, 0.92);
+        padding: .35rem;
+      }
+      .site-chrome-nav .dropdown-item{
+        border-radius: .75rem;
+        color: var(--text-100);
+        padding: .55rem .75rem;
+      }
+      .site-chrome-nav .dropdown-item:hover,
+      .site-chrome-nav .dropdown-item:focus{
+        background: rgba(var(--bs-primary-rgb), 0.14);
+        color: var(--text-100);
+      }
+      .site-chrome-nav .dropdown-item.active,
+      .site-chrome-nav .dropdown-item:active{
+        background: rgba(var(--bs-primary-rgb), 0.22);
+        color: var(--text-100);
+      }
+      html[data-theme="light"] .site-chrome-nav .dropdown-menu{
+        background: rgba(248, 250, 252, 0.95);
+      }
+      html[data-theme="light"] .site-chrome-nav .dropdown-item{
+        color: #0b1120;
+      }
+      html[data-theme="light"] .site-chrome-nav .dropdown-item:hover,
+      html[data-theme="light"] .site-chrome-nav .dropdown-item:focus{
+        color: #0b1120;
       }
       .meta-btn{
         display: inline-flex;
@@ -1220,10 +1664,11 @@
 
   function init() {
     injectChromeStyles();
+    initLanguageState();
     ensureFavicons();
     renderSiteChrome();
+    initLanguageSwitcher();
     normalizeRootAnchors();
-    normalizeWhatsAppLinks();
     initHomeNavTransparency();
     initHomeHeroVideo();
     initMusicToggle();
