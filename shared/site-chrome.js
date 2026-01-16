@@ -574,9 +574,6 @@
         <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
           <i id="musicIcon" class="bi bi-music-note"></i>
         </button>
-        <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
-          <i id="themeIcon" class="bi bi-moon-stars"></i>
-        </button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -602,6 +599,11 @@
                     <i class="bi bi-whatsapp"></i> <span data-i18n="nav.whatsapp">WhatsApp</span>
                   </a>
                 </li>
+                <li class="nav-item ms-lg-2">
+                  <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
+                    <i id="themeIcon" class="bi bi-moon-stars"></i>
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -625,6 +627,11 @@
                 <a class="btn btn-sm btn-outline-light" href="${whatsappHref}" target="_blank" rel="noopener" aria-label="Message Bernard on WhatsApp">
                   <i class="bi bi-whatsapp"></i> <span data-i18n="nav.whatsapp">WhatsApp</span>
                 </a>
+              </li>
+              <li class="nav-item ms-lg-2">
+                <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
+                  <i id="themeIcon" class="bi bi-moon-stars"></i>
+                </button>
               </li>
             </ul>
           </div>
