@@ -1347,6 +1347,19 @@
       .site-chrome-nav{
         transition: background-color .18s ease, border-color .18s ease, backdrop-filter .18s ease;
       }
+      .site-chrome-nav .navbar-toggler{
+        border-color: rgba(148,163,184,0.40);
+      }
+      .site-chrome-nav .navbar-toggler:focus{
+        box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb), 0.25);
+      }
+      html[data-theme="light"] .site-chrome-nav .navbar-toggler{
+        background: rgba(255,255,255,0.86);
+        border-color: rgba(15,23,42,0.18);
+      }
+      html[data-theme="light"] .site-chrome-nav .navbar-toggler-icon{
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2815%2c23%2c42%2c0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+      }
       .site-chrome-nav.nav-transparent{
         background: transparent !important;
         border-color: transparent !important;
