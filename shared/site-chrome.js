@@ -3,6 +3,8 @@
   const faviconPath = '/assets/img/bernard_favicon.webp';
   const brandIconDarkPath = '/assets/img/bernard_favicon_dark.webp';
   const brandIconLightPath = '/assets/img/bernard_favicon_light.webp';
+  const bootstrapIconsCssHref =
+    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css';
   const brandIconDark22Path = '/assets/img/bernard_favicon_dark-22px.webp';
   const brandIconDark44Path = '/assets/img/bernard_favicon_dark-44px.webp';
   const brandIconLight22Path = '/assets/img/bernard_favicon_light-22px.webp';
@@ -517,6 +519,31 @@
     meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#0b1220');
   }
 
+  function deferBootstrapIconsCss() {
+    const load = () => {
+      if (document.getElementById('bootstrapIconsCss')) return;
+      const link = document.createElement('link');
+      link.id = 'bootstrapIconsCss';
+      link.rel = 'stylesheet';
+      link.href = bootstrapIconsCssHref;
+      link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+    };
+
+    if (document.readyState === 'complete') {
+      window.setTimeout(load, 1200);
+      return;
+    }
+
+    window.addEventListener(
+      'load',
+      () => {
+        window.setTimeout(load, 1200);
+      },
+      { once: true }
+    );
+  }
+
   function applyTheme(theme) {
     const root = document.documentElement;
     root.setAttribute('data-theme', theme);
@@ -706,6 +733,167 @@
 
     update();
     window.addEventListener('scroll', update, { passive: true });
+  }
+
+  function initBootstrapLite() {
+    const initDropdowns = () => {
+      const toggles = Array.from(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+      if (!toggles.length) return;
+
+      const closeAll = (exceptToggle) => {
+        for (const toggle of toggles) {
+          if (exceptToggle && toggle === exceptToggle) continue;
+          const dropdown = toggle.closest('.dropdown');
+          const menu = dropdown?.querySelector('.dropdown-menu');
+          toggle.classList.remove('show');
+          toggle.setAttribute('aria-expanded', 'false');
+          if (dropdown) dropdown.classList.remove('show');
+          if (menu) menu.classList.remove('show');
+        }
+      };
+
+      for (const toggle of toggles) {
+        const dropdown = toggle.closest('.dropdown');
+        const menu = dropdown?.querySelector('.dropdown-menu');
+        if (!dropdown || !menu) continue;
+
+        toggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          const isOpen = menu.classList.contains('show');
+          closeAll(toggle);
+          if (isOpen) return;
+          dropdown.classList.add('show');
+          toggle.classList.add('show');
+          toggle.setAttribute('aria-expanded', 'true');
+          menu.classList.add('show');
+        });
+
+        menu.addEventListener('click', () => {
+          closeAll();
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        const insideDropdown = Boolean(target.closest?.('.dropdown'));
+        if (insideDropdown) return;
+        closeAll();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        closeAll();
+      });
+    };
+
+    const initCollapses = () => {
+      const toggles = Array.from(document.querySelectorAll('[data-bs-toggle="collapse"]'));
+      if (!toggles.length) return;
+
+      const resolveTarget = (toggle) => {
+        const selector = toggle.getAttribute('data-bs-target') || toggle.getAttribute('href');
+        if (!selector) return null;
+        if (!selector.startsWith('#')) return null;
+        return document.querySelector(selector);
+      };
+
+      const findTogglesFor = (collapseEl) => {
+        const id = collapseEl.getAttribute('id');
+        if (!id) return [];
+        return toggles.filter((toggle) => {
+          const selector = toggle.getAttribute('data-bs-target') || toggle.getAttribute('href') || '';
+          return selector === `#${id}`;
+        });
+      };
+
+      const setToggleState = (toggle, isExpanded) => {
+        toggle.setAttribute('aria-expanded', String(isExpanded));
+        toggle.classList.toggle('collapsed', !isExpanded);
+      };
+
+      const animateShow = (el) =>
+        new Promise((resolve) => {
+          el.classList.remove('collapse');
+          el.classList.remove('show');
+          el.classList.add('collapsing');
+          el.style.height = '0px';
+          void el.offsetHeight;
+          el.style.height = `${el.scrollHeight}px`;
+
+          const done = () => {
+            el.classList.remove('collapsing');
+            el.classList.add('collapse');
+            el.classList.add('show');
+            el.style.height = '';
+            el.removeEventListener('transitionend', done);
+            resolve();
+          };
+
+          el.addEventListener('transitionend', done);
+          window.setTimeout(done, 450);
+        });
+
+      const animateHide = (el) =>
+        new Promise((resolve) => {
+          el.style.height = `${el.getBoundingClientRect().height}px`;
+          void el.offsetHeight;
+          el.classList.add('collapsing');
+          el.classList.remove('collapse');
+          el.classList.remove('show');
+          el.style.height = '0px';
+
+          const done = () => {
+            el.classList.remove('collapsing');
+            el.classList.add('collapse');
+            el.style.height = '';
+            el.removeEventListener('transitionend', done);
+            resolve();
+          };
+
+          el.addEventListener('transitionend', done);
+          window.setTimeout(done, 450);
+        });
+
+      const setOpen = async (collapseEl, open) => {
+        const isOpen = collapseEl.classList.contains('show');
+        if (open === isOpen) return;
+
+        const togglesForEl = findTogglesFor(collapseEl);
+        for (const toggle of togglesForEl) setToggleState(toggle, open);
+
+        if (open) {
+          await animateShow(collapseEl);
+          return;
+        }
+
+        await animateHide(collapseEl);
+      };
+
+      for (const toggle of toggles) {
+        toggle.addEventListener('click', async (event) => {
+          event.preventDefault();
+          const target = resolveTarget(toggle);
+          if (!target) return;
+
+          const parentSelector = target.getAttribute('data-bs-parent');
+          if (parentSelector) {
+            const parent = document.querySelector(parentSelector);
+            if (parent) {
+              const others = Array.from(parent.querySelectorAll('.collapse.show')).filter(
+                (el) => el !== target
+              );
+              for (const other of others) await setOpen(other, false);
+            }
+          }
+
+          await setOpen(target, !target.classList.contains('show'));
+        });
+      }
+    };
+
+    initDropdowns();
+    initCollapses();
   }
 
   function initHomeHeroVideo() {
@@ -1742,9 +1930,11 @@
 
   function init() {
     injectChromeStyles();
+    deferBootstrapIconsCss();
     initLanguageState();
     ensureFavicons();
     renderSiteChrome();
+    initBootstrapLite();
     initLanguageSwitcher();
     normalizeRootAnchors();
     initHomeNavTransparency();
