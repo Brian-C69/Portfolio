@@ -1,6 +1,6 @@
 /* Minimal service worker for offline-first caching (static portfolio). */
 
-const CACHE_VERSION = 'portfolio-v2';
+const CACHE_VERSION = 'portfolio-v3';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -63,9 +63,6 @@ self.addEventListener('fetch', (event) => {
       const cache = await caches.open(CACHE_VERSION);
 
       if (request.mode === 'navigate') {
-        const cached = await cache.match(request);
-        if (cached) return cached;
-
         try {
           const response = await fetch(request);
           if (response && response.ok) {
@@ -75,7 +72,11 @@ self.addEventListener('fetch', (event) => {
           const notFound = await cache.match('./404.html');
           return notFound || response;
         } catch {
-          return (await cache.match('./index.html')) || (await cache.match('./404.html'));
+          return (
+            (await cache.match(request)) ||
+            (await cache.match('./index.html')) ||
+            (await cache.match('./404.html'))
+          );
         }
       }
 
