@@ -1226,7 +1226,9 @@
 
       track.dataset.carouselInit = 'true';
 
-      const clonesCount = Math.min(3, realSlides.length);
+      // Clone the full set on both ends so the carousel never reveals "empty" space
+      // at the edges (stronger infinite-loop effect).
+      const clonesCount = realSlides.length;
 
       const prependFragment = document.createDocumentFragment();
       for (const slide of realSlides.slice(-clonesCount)) {
