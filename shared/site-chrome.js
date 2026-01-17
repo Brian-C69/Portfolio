@@ -3,6 +3,10 @@
   const faviconPath = '/assets/img/bernard_favicon.webp';
   const brandIconDarkPath = '/assets/img/bernard_favicon_dark.webp';
   const brandIconLightPath = '/assets/img/bernard_favicon_light.webp';
+  const brandIconDark22Path = '/assets/img/bernard_favicon_dark-22px.webp';
+  const brandIconDark44Path = '/assets/img/bernard_favicon_dark-44px.webp';
+  const brandIconLight22Path = '/assets/img/bernard_favicon_light-22px.webp';
+  const brandIconLight44Path = '/assets/img/bernard_favicon_light-44px.webp';
   const backgroundAudioSources = [
     { src: '/assets/audio/background-music.m4a', type: 'audio/mp4' },
     { src: '/assets/audio/background-music.mp3', type: 'audio/mpeg' },
@@ -488,15 +492,23 @@
   }
 
   function getBrandIconSrc(theme) {
-    return withBase(theme === 'light' ? brandIconLightPath : brandIconDarkPath);
+    return withBase(theme === 'light' ? brandIconLight22Path : brandIconDark22Path);
+  }
+
+  function getBrandIconSrcSet(theme) {
+    const oneX = withBase(theme === 'light' ? brandIconLight22Path : brandIconDark22Path);
+    const twoX = withBase(theme === 'light' ? brandIconLight44Path : brandIconDark44Path);
+    return `${oneX} 1x, ${twoX} 2x`;
   }
 
   function updateBrandIcon(theme) {
     const img = document.getElementById('siteBrandIcon');
     if (!img) return;
     const nextSrc = getBrandIconSrc(theme);
-    if (img.getAttribute('src') === nextSrc) return;
+    const nextSrcSet = getBrandIconSrcSet(theme);
+    if (img.getAttribute('src') === nextSrc && img.getAttribute('srcset') === nextSrcSet) return;
     img.setAttribute('src', nextSrc);
+    img.setAttribute('srcset', nextSrcSet);
   }
 
   function updateThemeColor(theme) {
@@ -560,6 +572,7 @@
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
     const navbarVariantClass = theme === 'light' ? 'navbar-light' : 'navbar-dark';
     const brandIconSrc = getBrandIconSrc(theme);
+    const brandIconSrcSet = getBrandIconSrcSet(theme);
     const actionsMarkup = `
       <div class="nav-actions d-flex align-items-center gap-2 ms-auto order-lg-2 pe-2 ps-lg-3">
         <div class="dropdown">
@@ -583,7 +596,7 @@
         <nav class="navbar navbar-expand-lg ${navbarVariantClass} fixed-top site-chrome-nav">
           <div class="container">
             <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
-              <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
+              <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" srcset="${brandIconSrcSet}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
             </a>
             ${actionsMarkup}
             <div class="collapse navbar-collapse order-lg-1" id="nav">
@@ -618,7 +631,7 @@
       <nav class="navbar navbar-expand-lg ${navbarVariantClass} fixed-top site-chrome-nav">
         <div class="container">
           <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
-            <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
+            <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" srcset="${brandIconSrcSet}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
           </a>
           ${actionsMarkup}
           <div class="collapse navbar-collapse order-lg-1" id="nav">
