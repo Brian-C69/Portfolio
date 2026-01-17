@@ -17,7 +17,7 @@
 
   const translations = {
     en: {
-      nav: { about: 'About', approach: 'Approach', trust: 'Trust', contact: 'Contact', whatsapp: 'WhatsApp' },
+      nav: { about: 'About', approach: 'Approach', trust: 'Trust', contact: 'Contact', whatsapp: 'WhatsApp', music: 'Music' },
       footer: { home: 'Home', projects: 'Projects', services: 'Services', about: 'About', contact: 'Contact', whatsapp: 'WhatsApp' },
       lang: { en: 'English', ms: 'Malay', zh: 'Chinese', short: { en: 'EN', ms: 'BM', zh: '中文' } },
       whatsappPrefill:
@@ -109,7 +109,7 @@
       },
     },
     ms: {
-      nav: { about: 'Tentang', approach: 'Pendekatan', trust: 'Kepercayaan', contact: 'Hubungi', whatsapp: 'WhatsApp' },
+      nav: { about: 'Tentang', approach: 'Pendekatan', trust: 'Kepercayaan', contact: 'Hubungi', whatsapp: 'WhatsApp', music: 'Muzik' },
       footer: { home: 'Laman Utama', projects: 'Projek', services: 'Perkhidmatan', about: 'Tentang', contact: 'Hubungi', whatsapp: 'WhatsApp' },
       lang: { en: 'Inggeris', ms: 'Melayu', zh: 'Cina', short: { en: 'EN', ms: 'BM', zh: '中文' } },
       whatsappPrefill:
@@ -196,7 +196,7 @@
       },
     },
     zh: {
-      nav: { about: '关于', approach: '方法', trust: '可信度', contact: '联系', whatsapp: 'WhatsApp' },
+      nav: { about: '关于', approach: '方法', trust: '可信度', contact: '联系', whatsapp: 'WhatsApp', music: '音乐' },
       footer: { home: '首页', projects: '项目', services: '服务', about: '关于', contact: '联系', whatsapp: 'WhatsApp' },
       lang: { en: '英语', ms: '马来语', zh: '中文', short: { en: 'EN', ms: 'BM', zh: '中文' } },
       whatsappPrefill: '你好 Bernard — 我通过你的作品集找到你。我需要网站/平台方面的帮助：',
@@ -571,9 +571,6 @@
             <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
           </ul>
         </div>
-        <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
-          <i id="musicIcon" class="bi bi-music-note"></i>
-        </button>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -604,6 +601,11 @@
                     <i id="themeIcon" class="bi bi-moon-stars"></i>
                   </button>
                 </li>
+                <li class="nav-item ms-lg-2">
+                  <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
+                    <i id="musicIcon" class="bi bi-music-note"></i> <span class="d-lg-none ms-2" data-i18n="nav.music">Music</span>
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -631,6 +633,11 @@
               <li class="nav-item ms-lg-2">
                 <button id="themeToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Toggle theme">
                   <i id="themeIcon" class="bi bi-moon-stars"></i>
+                </button>
+              </li>
+              <li class="nav-item ms-lg-2">
+                <button id="musicToggle" class="btn btn-sm btn-outline-light" type="button" aria-label="Music off (click to turn on)">
+                  <i id="musicIcon" class="bi bi-music-note"></i> <span class="d-lg-none ms-2" data-i18n="nav.music">Music</span>
                 </button>
               </li>
             </ul>
