@@ -1226,13 +1226,15 @@
 
       track.dataset.carouselInit = 'true';
 
-      // Clone the full set on both ends so the carousel never reveals "empty" space
-      // at the edges (stronger infinite-loop effect).
-      const clonesCount = realSlides.length;
+      // Clone more than one full set on both ends so the carousel never reveals
+      // "empty" space at the edges (especially on wide viewports showing 2–3 cards).
+      const len = realSlides.length;
+      const clonesCount = len * 2;
 
       const prependFragment = document.createDocumentFragment();
-      for (const slide of realSlides.slice(-clonesCount)) {
-        const clone = slide.cloneNode(true);
+      for (let i = 0; i < clonesCount; i += 1) {
+        const sourceIndex = ((len - clonesCount + i) % len + len) % len;
+        const clone = realSlides[sourceIndex].cloneNode(true);
         clone.classList.add('is-clone');
         clone.setAttribute('aria-hidden', 'true');
         prependFragment.appendChild(clone);
@@ -1240,8 +1242,8 @@
       track.insertBefore(prependFragment, realSlides[0]);
 
       const appendFragment = document.createDocumentFragment();
-      for (const slide of realSlides.slice(0, clonesCount)) {
-        const clone = slide.cloneNode(true);
+      for (let i = 0; i < clonesCount; i += 1) {
+        const clone = realSlides[i % len].cloneNode(true);
         clone.classList.add('is-clone');
         clone.setAttribute('aria-hidden', 'true');
         appendFragment.appendChild(clone);
@@ -1282,10 +1284,7 @@
         track.style.transform = `translate3d(${x}px, 0, 0)`;
       };
 
-      const getRealIndex = () => {
-        const len = realSlides.length;
-        return ((index - clonesCount) % len + len) % len;
-      };
+      const getRealIndex = () => ((index - clonesCount) % len + len) % len;
 
       const renderDots = () => {
         if (!dotsHost) return;
@@ -1398,13 +1397,16 @@
       track.addEventListener('transitionend', () => {
         isAnimating = false;
 
-        const len = realSlides.length;
         if (len <= 1) return;
 
         if (index < clonesCount) {
-          jumpToIndex(index + len);
+          let normalized = index;
+          while (normalized < clonesCount) normalized += len;
+          jumpToIndex(normalized);
         } else if (index >= clonesCount + len) {
-          jumpToIndex(index - len);
+          let normalized = index;
+          while (normalized >= clonesCount + len) normalized -= len;
+          jumpToIndex(normalized);
         }
         updateDots();
       });
