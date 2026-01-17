@@ -558,6 +558,7 @@
     const currentAttr = (page) => (activePage === page ? ' aria-current="page"' : '');
     const whatsappHref = getWhatsAppHref();
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const navbarVariantClass = theme === 'light' ? 'navbar-light' : 'navbar-dark';
     const brandIconSrc = getBrandIconSrc(theme);
     const actionsMarkup = `
       <div class="nav-actions d-flex align-items-center gap-2 ms-auto order-lg-2 pe-2 ps-lg-3">
@@ -571,7 +572,7 @@
             <li><button class="dropdown-item" type="button" data-lang="zh"><span data-i18n="lang.zh">Chinese</span></button></li>
           </ul>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
@@ -579,7 +580,7 @@
 
     if (activePage === 'home') {
       return `
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-chrome-nav">
+        <nav class="navbar navbar-expand-lg ${navbarVariantClass} fixed-top site-chrome-nav">
           <div class="container">
             <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
               <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
@@ -614,7 +615,7 @@
     }
 
     return `
-      <nav class="navbar navbar-expand-lg navbar-dark fixed-top site-chrome-nav">
+      <nav class="navbar navbar-expand-lg ${navbarVariantClass} fixed-top site-chrome-nav">
         <div class="container">
           <a class="navbar-brand fw-semibold d-flex align-items-center gap-2" href="${withBase('/')}">
             <img id="siteBrandIcon" class="brand-icon" src="${brandIconSrc}" alt="" width="22" height="22" decoding="async" loading="eager" /> Bernard Choong
