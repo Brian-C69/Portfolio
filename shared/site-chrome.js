@@ -1265,6 +1265,21 @@
         track.style.transition = enabled ? defaultTransition : 'none';
       };
 
+      const snapToIndex = (nextIndex) => {
+        index = nextIndex;
+        setTransition(false);
+        applyTransform(0);
+        window.requestAnimationFrame(() => {
+          setTransition(true);
+        });
+      };
+
+      const normalizeIndexIntoRealRange = () => {
+        if (len <= 1) return;
+        if (index < clonesCount) index += len;
+        if (index >= clonesCount + len) index -= len;
+      };
+
       const getGapPx = () => {
         const gapRaw = getComputedStyle(track).gap || '0px';
         const gap = Number.parseFloat(gapRaw) || 0;
@@ -1322,25 +1337,30 @@
       };
 
       const jumpToIndex = (nextIndex) => {
-        index = nextIndex;
-        setTransition(false);
-        applyTransform(0);
-        // force reflow so next transition works
-        void track.offsetHeight;
-        setTransition(true);
+        snapToIndex(nextIndex);
       };
 
       const next = () => {
         if (!isReducedMotion && isAnimating) return;
         isAnimating = true;
+
+        // If we’re at the last real slide, snap to an equivalent position first,
+        // then animate forward so the wrap never “snaps” visibly.
+        if (index >= clonesCount + len - 1) {
+          index -= len;
+          setTransition(false);
+          applyTransform(0);
+          void track.offsetHeight;
+          setTransition(true);
+        }
+
         index += 1;
         setTransition(true);
         applyTransform(0);
         updateDots();
         if (isReducedMotion) {
-          const len = realSlides.length;
-          if (index < clonesCount) jumpToIndex(index + len);
-          if (index >= clonesCount + len) jumpToIndex(index - len);
+          normalizeIndexIntoRealRange();
+          jumpToIndex(index);
           isAnimating = false;
         }
       };
@@ -1348,14 +1368,24 @@
       const prev = () => {
         if (!isReducedMotion && isAnimating) return;
         isAnimating = true;
+
+        // If we’re at the first real slide, snap to an equivalent position first,
+        // then animate backward so the wrap never “snaps” visibly.
+        if (index <= clonesCount) {
+          index += len;
+          setTransition(false);
+          applyTransform(0);
+          void track.offsetHeight;
+          setTransition(true);
+        }
+
         index -= 1;
         setTransition(true);
         applyTransform(0);
         updateDots();
         if (isReducedMotion) {
-          const len = realSlides.length;
-          if (index < clonesCount) jumpToIndex(index + len);
-          if (index >= clonesCount + len) jumpToIndex(index - len);
+          normalizeIndexIntoRealRange();
+          jumpToIndex(index);
           isAnimating = false;
         }
       };
@@ -1399,14 +1429,10 @@
 
         if (len <= 1) return;
 
-        if (index < clonesCount) {
-          let normalized = index;
-          while (normalized < clonesCount) normalized += len;
-          jumpToIndex(normalized);
-        } else if (index >= clonesCount + len) {
-          let normalized = index;
-          while (normalized >= clonesCount + len) normalized -= len;
-          jumpToIndex(normalized);
+        const before = index;
+        normalizeIndexIntoRealRange();
+        if (index !== before) {
+          snapToIndex(index);
         }
         updateDots();
       });
