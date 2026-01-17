@@ -1,15 +1,18 @@
 /* Minimal service worker for offline-first caching (static portfolio). */
 
-const CACHE_VERSION = 'portfolio-v1';
+const CACHE_VERSION = 'portfolio-v2';
 const CORE_ASSETS = [
   './',
   './index.html',
   './404.html',
   './manifest.webmanifest',
   './shared/site-chrome.js',
+  './assets/img/Hero-fallback-1280w.webp',
   './assets/img/bernard_favicon.webp',
-  './assets/img/bernard_favicon_dark.webp',
-  './assets/img/bernard_favicon_light.webp',
+  './assets/img/bernard_favicon_dark-22px.webp',
+  './assets/img/bernard_favicon_dark-44px.webp',
+  './assets/img/bernard_favicon_light-22px.webp',
+  './assets/img/bernard_favicon_light-44px.webp',
 ];
 
 function isSkippableAsset(requestUrl) {
@@ -103,4 +106,3 @@ self.addEventListener('fetch', (event) => {
     })()
   );
 });
-

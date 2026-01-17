@@ -720,11 +720,63 @@
       video.playsInline = true;
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('preload', 'none');
     } catch {
       // ignore
     }
 
-    const attempt = async () => {
+    const getViewportWidth = () =>
+      Math.max(document.documentElement?.clientWidth || 0, window.innerWidth || 0);
+
+    const getConnection = () =>
+      navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+
+    const shouldDisableMedia = () => {
+      const connection = getConnection();
+      const effectiveType = connection?.effectiveType;
+      const saveData = Boolean(connection?.saveData);
+      return (
+        prefersReducedMotion() ||
+        saveData ||
+        effectiveType === 'slow-2g' ||
+        effectiveType === '2g' ||
+        effectiveType === '3g'
+      );
+    };
+
+    const pickPoster = (viewportWidth) => {
+      if (viewportWidth < 768) return '/assets/img/Hero-fallback-640w.webp';
+      if (viewportWidth < 1200) return '/assets/img/Hero-fallback-960w.webp';
+      if (viewportWidth < 1800) return '/assets/img/Hero-fallback-1280w.webp';
+      return '/assets/img/Hero-fallback-1920w.webp';
+    };
+
+    const pickVideoSrc = (viewportWidth) => {
+      if (viewportWidth < 768) return null;
+      return '/assets/video/tech-background-720p.mp4';
+    };
+
+    const viewportWidth = getViewportWidth();
+    const posterPath = pickPoster(viewportWidth);
+    if (posterPath) video.poster = withBase(posterPath);
+
+    if (shouldDisableMedia()) return;
+
+    const src = pickVideoSrc(viewportWidth);
+    if (!src) return;
+
+    const loadAndPlay = async () => {
+      if (!document.body.contains(video)) return;
+      if (video.getAttribute('data-hero-loaded') === '1') return;
+      video.setAttribute('data-hero-loaded', '1');
+
+      try {
+        video.src = withBase(src);
+        video.load();
+      } catch {
+        // ignore
+      }
+
       try {
         await video.play();
       } catch {
@@ -732,9 +784,11 @@
       }
     };
 
-    attempt();
-    document.addEventListener('pointerdown', attempt, { once: true });
-    document.addEventListener('keydown', attempt, { once: true });
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => loadAndPlay(), { timeout: 2500 });
+    } else {
+      window.setTimeout(() => loadAndPlay(), 900);
+    }
   }
 
   function prefersReducedMotion() {
@@ -746,9 +800,9 @@
 
   function getMusicPreference() {
     try {
-      return localStorage.getItem(musicPreferenceKey) || 'on';
+      return localStorage.getItem(musicPreferenceKey) || 'off';
     } catch {
-      return 'on';
+      return 'off';
     }
   }
 
@@ -779,7 +833,7 @@
 
     audio = document.createElement('audio');
     audio.id = 'siteMusic';
-    audio.preload = 'auto';
+    audio.preload = 'none';
     audio.loop = true;
     audio.volume = defaultMusicVolume;
     audio.style.display = 'none';
@@ -837,26 +891,22 @@
     const toggle = document.getElementById('musicToggle');
     if (!toggle) return;
 
-    const audio = getOrCreateBackgroundAudio();
+    let audio = null;
+    const ensureAudio = () => {
+      audio = audio || getOrCreateBackgroundAudio();
+      return audio;
+    };
     const desiredOn = getMusicPreference() === 'on';
     updateMusicButton(desiredOn);
 
-    const attemptAutoPlay = async () => {
-      const ok = await tryPlayAudio(audio);
-      if (ok) return;
-
-      const retry = async () => {
-        await tryPlayAudio(audio);
-      };
-
-      document.addEventListener('pointerdown', retry, { once: true });
-      document.addEventListener('keydown', retry, { once: true });
+    const tryStartFromGesture = async () => {
+      if (getMusicPreference() !== 'on') return;
+      await tryPlayAudio(ensureAudio());
     };
 
     if (desiredOn) {
-      attemptAutoPlay();
-    } else {
-      audio.pause();
+      document.addEventListener('pointerdown', tryStartFromGesture, { once: true });
+      document.addEventListener('keydown', tryStartFromGesture, { once: true });
     }
 
     toggle.addEventListener('click', async () => {
@@ -866,11 +916,20 @@
       updateMusicButton(nextDesiredOn);
 
       if (!nextDesiredOn) {
-        audio.pause();
+        if (audio) audio.pause();
         return;
       }
 
-      await tryPlayAudio(audio);
+      const ok = await tryPlayAudio(ensureAudio());
+      if (ok) return;
+
+      const retry = async () => {
+        if (!audio) return;
+        await tryPlayAudio(audio);
+      };
+
+      document.addEventListener('pointerdown', retry, { once: true });
+      document.addEventListener('keydown', retry, { once: true });
     });
   }
 
