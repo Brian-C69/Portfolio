@@ -924,7 +924,6 @@
       const effectiveType = connection?.effectiveType;
       const saveData = Boolean(connection?.saveData);
       return (
-        prefersReducedMotion() ||
         saveData ||
         effectiveType === 'slow-2g' ||
         effectiveType === '2g' ||
@@ -940,8 +939,10 @@
     };
 
     const pickVideoSrc = (viewportWidth) => {
-      if (viewportWidth < 768) return null;
-      return '/assets/video/tech-background-720p.mp4';
+      // Serve lighter source on mobile while still allowing playback
+      if (viewportWidth < 768) return '/assets/video/tech-background-720p.mp4';
+      if (viewportWidth < 1400) return '/assets/video/tech-background-1080p.mp4';
+      return '/assets/video/tech-background-2k.mp4';
     };
 
     const viewportWidth = getViewportWidth();
